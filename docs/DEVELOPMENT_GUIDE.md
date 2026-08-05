@@ -1,78 +1,172 @@
 # 🚀 AI-Powered Transaction Risk Scoring System
 
-# Development Guide
+# DEVELOPMENT GUIDE
 
+> **Version:** 2.0
+>
 > **Purpose**
 >
-> This document serves as my personal roadmap for building a production-quality AI-Powered Transaction Risk Scoring System from scratch.
+> This document is my personal engineering handbook for building a production-quality AI-Powered Transaction Risk Scoring System from scratch.
 >
-> The goal is not only to complete the project but also to understand every concept, follow industry best practices, maintain a clean Git history, and prepare for software engineering and AI/ML interviews.
+> This is **not** just a roadmap.
+>
+> It contains the complete development workflow, coding standards, Git strategy, AI usage rules, milestones, engineering principles, and progress tracking followed throughout the project.
+>
+> Every phase must be completed only after understanding the concepts, implementing the code, testing it, reviewing it, and documenting it.
 
 ---
 
-# 🎯 Project Goals
+# 🎯 Project Objective
+
+The objective of this project is **not only to build a fraud detection system**, but to learn how production software is designed, developed, tested, documented, and deployed.
 
 By the end of this project, I should be able to:
 
 - Build an end-to-end Machine Learning system
-- Understand fraud detection systems
-- Design scalable backend services
-- Build REST APIs using FastAPI
-- Work with PostgreSQL
-- Develop a React frontend
-- Containerize applications with Docker
-- Deploy a production-ready application
-- Follow clean architecture
-- Write maintainable and testable code
-- Explain every design decision confidently during interviews
+- Design scalable backend architecture
+- Develop production-ready REST APIs
+- Build a modern React dashboard
+- Integrate PostgreSQL with FastAPI
+- Train and deploy an XGBoost model
+- Containerize applications using Docker
+- Deploy the project to production
+- Follow industry-standard software engineering practices
+- Explain every architectural and design decision confidently in interviews
 
 ---
 
-# 🧠 Skills Covered
+# 🏆 Development Philosophy
 
-## Machine Learning
+This project is being built using the same workflow followed by professional software engineering teams.
 
-- Data Cleaning
-- Exploratory Data Analysis
-- Feature Engineering
-- Feature Selection
-- Model Training
-- Model Evaluation
-- Hyperparameter Tuning
-- Model Serialization
-- Inference Pipeline
+The goal is **quality over speed**.
+
+Every implementation must satisfy the following principles:
+
+- Understand before coding
+- Build one layer at a time
+- Never skip architecture
+- Keep every module independent
+- Prefer readability over clever code
+- Keep Git history meaningful
+- Avoid unnecessary abstractions
+- Follow Clean Architecture principles
+- Every file must have a single responsibility
 
 ---
+
+# 🧠 Engineering Principles
+
+Throughout the project, these principles must always be followed.
+
+## 1. Single Responsibility Principle
+
+Every file should have one clear purpose.
+
+Examples:
+
+```
+config.py
+```
+
+Application configuration only.
+
+```
+logging.py
+```
+
+Logging configuration only.
+
+```
+health.py
+```
+
+Health API only.
+
+Never mix unrelated responsibilities.
+
+---
+
+## 2. Separation of Concerns
+
+Backend responsibilities must remain separate.
+
+```
+API Layer
+    ↓
+Service Layer
+    ↓
+Database Layer
+    ↓
+Machine Learning Layer
+```
+
+Routes should never contain business logic.
+
+Business logic should never communicate directly with the frontend.
+
+---
+
+## 3. YAGNI Principle
+
+> "You Aren't Gonna Need It"
+
+Never implement features simply because they might be useful later.
+
+Only build what the current milestone requires.
+
+---
+
+## 4. KISS Principle
+
+> Keep It Simple, Stupid
+
+Always choose the simplest solution that satisfies the requirements.
+
+Avoid unnecessary complexity.
+
+---
+
+## 5. DRY Principle
+
+> Don't Repeat Yourself
+
+Avoid duplicate code.
+
+If logic is reused more than once, consider extracting it into a reusable function or module.
+
+---
+
+# 🛠 Technology Stack
 
 ## Backend
 
+- Python 3.11
 - FastAPI
-- REST APIs
-- Pydantic Validation
+- Pydantic
 - SQLAlchemy
 - Alembic
-- Logging
-- Error Handling
+- PostgreSQL
 
 ---
 
-## Database
+## Machine Learning
 
-- PostgreSQL
-- Relationships
-- CRUD Operations
-- Transactions
-- Indexing
+- Pandas
+- NumPy
+- Scikit-learn
+- XGBoost
+- Joblib
 
 ---
 
 ## Frontend
 
 - React
+- Vite
 - Tailwind CSS
 - Axios
-- Charts
-- Dashboard Design
+- Recharts
 
 ---
 
@@ -80,315 +174,473 @@ By the end of this project, I should be able to:
 
 - Docker
 - Docker Compose
-- Environment Variables
 - GitHub Actions
-- Deployment
 
 ---
 
-# 📅 Project Timeline
+## Development Tools
 
-| Phase | Topic | Status |
-|--------|--------|--------|
-| Phase 1 | Planning & Repository Setup | ✅ |
-| Phase 2 | Professional Folder Structure | ⬜ |
-| Phase 3 | Dataset Selection | ⬜ |
-| Phase 4 | Data Preprocessing | ⬜ |
-| Phase 5 | Exploratory Data Analysis | ⬜ |
-| Phase 6 | Feature Engineering | ⬜ |
-| Phase 7 | Model Training | ⬜ |
-| Phase 8 | Risk Score Engine | ⬜ |
-| Phase 9 | FastAPI Backend | ⬜ |
-| Phase 10 | PostgreSQL Integration | ⬜ |
-| Phase 11 | React Frontend | ⬜ |
-| Phase 12 | Dashboard & Analytics | ⬜ |
-| Phase 13 | Testing | ⬜ |
-| Phase 14 | Dockerization | ⬜ |
-| Phase 15 | Deployment | ⬜ |
-| Phase 16 | Final Documentation | ⬜ |
+- VS Code
+- Git
+- GitHub
+- Antigravity AI
+- ChatGPT
 
 ---
 
-# 🌿 Git Branch Strategy
+# 📂 Repository Structure
 
 ```
-main
+AI-Powered-Transaction-Risk-Scoring-System/
+
 │
-├── develop
+├── backend/
+├── frontend/
+├── ml/
+├── tests/
+├── docker/
+├── docs/
+├── .github/
 │
-├── feature/project-setup
-├── feature/ml
-├── feature/backend
-├── feature/database
-├── feature/frontend
-├── feature/dashboard
-├── feature/testing
-├── feature/docker
-└── feature/documentation
+├── README.md
+├── LICENSE
+├── .gitignore
+└── docker-compose.yml
 ```
+
+---
+
+# 📖 Development Workflow
+
+Every milestone follows exactly the same workflow.
+
+```
+Learn
+    ↓
+Plan
+    ↓
+Design
+    ↓
+Generate Code
+    ↓
+Review
+    ↓
+Refactor
+    ↓
+Test
+    ↓
+Commit
+    ↓
+Push
+    ↓
+Update Documentation
+```
+
+No step may be skipped.
+
+---
+
+# 🤖 AI Development Workflow
+
+AI is used as an engineering assistant, **not** as an automatic code generator.
+
+The workflow is:
+
+```
+ChatGPT
+    │
+    ▼
+Explain Concept
+
+    │
+    ▼
+Design Architecture
+
+    │
+    ▼
+Create Prompt
+
+    │
+    ▼
+Generate Code using Antigravity
+
+    │
+    ▼
+Manual Review
+
+    │
+    ▼
+Refactor
+
+    │
+    ▼
+Run Project
+
+    │
+    ▼
+Commit
+
+    │
+    ▼
+Push
+```
+
+Every generated file must be reviewed before being accepted.
+
+---
+
+# 🚫 AI Usage Rules
+
+The following rules apply throughout the project.
+
+- Never accept AI-generated code without review.
+- Never generate multiple files in one prompt.
+- Generate one file at a time.
+- Understand every line before accepting it.
+- Ask "Why?" before asking "How?".
+- Never allow AI to over-engineer the project.
+- Keep prompts focused on the current milestone.
+- Follow Python and FastAPI best practices.
+- Prefer production-quality code over shorter code.
+
+---
+
+# 🌌 Antigravity Workflow
+
+Every Antigravity prompt must follow this pattern:
+
+1. Define the current phase.
+2. Describe the existing project context.
+3. Specify exactly one file to create or modify.
+4. Clearly state what must NOT be changed.
+5. Require PEP8 compliance.
+6. Require concise docstrings.
+7. Require type hints.
+8. Request only the target file as output.
+
+Never ask Antigravity to generate multiple modules at once.
+
+---
+
+# 🌿 Git Strategy
+
+Development follows milestone-based commits.
+
+```
+Complete Milestone
+        │
+        ▼
+Review Code
+        │
+        ▼
+Fix Issues
+        │
+        ▼
+Commit
+        │
+        ▼
+Push
+        │
+        ▼
+Update Documentation
+```
+
+Do **not** commit after every tiny change.
+
+Commit after a complete, tested milestone.
 
 ---
 
 # 📝 Commit Convention
 
-Always follow Conventional Commits.
+Follow Conventional Commits.
 
 | Prefix | Usage |
 |---------|------|
-| feat | New Feature |
-| fix | Bug Fix |
+| feat | New feature |
+| fix | Bug fix |
 | docs | Documentation |
-| style | Formatting |
-| refactor | Code Improvement |
+| refactor | Code improvements |
 | test | Tests |
-| chore | Project Setup |
-| build | Docker / Build |
+| chore | Project maintenance |
+| build | Docker / Build system |
 | ci | GitHub Actions |
-| deploy | Deployment |
-| release | Final Release |
+
+Examples:
+
+```
+feat(core): implement application configuration
+
+feat(api): implement health check endpoint
+
+refactor(logging): improve logger configuration
+
+docs: update development guide
+
+test(api): add health endpoint tests
+```
 
 ---
 
-# 📌 Development Workflow
+# 🔍 Code Review Checklist
 
-For every phase, follow this order:
+Every file must satisfy the following checklist before being accepted.
 
-1. Understand the Concept
-2. Design the Solution
-3. Implement the Code
-4. Test the Implementation
-5. Commit Changes
-6. Push to GitHub
-7. Update Documentation
-8. Review Before Moving On
-
-Never skip a step.
-
----
-
-# 📖 Standard Phase Template
-
-Every phase in this guide follows the same structure.
-
-## Phase Goal
-
-What is the objective?
+- [ ] Single Responsibility
+- [ ] Clean naming
+- [ ] No duplicated logic
+- [ ] PEP8 compliant
+- [ ] Type hints included
+- [ ] Proper docstrings
+- [ ] Production-ready structure
+- [ ] Readable and maintainable
+- [ ] No unnecessary abstractions
+- [ ] Can be confidently explained during an interview
 
 ---
 
-## Concepts
+# 📊 Current Project Progress
 
-What theory should I understand?
+## Completed
 
----
-
-## Tasks
-
-Step-by-step implementation checklist.
-
----
-
-## Expected Output
-
-What should exist after completing this phase?
-
----
-
-## Files Created
-
-Which files or folders were added?
+- ✅ Repository Initialization
+- ✅ Professional Folder Structure
+- ✅ Python Virtual Environment
+- ✅ Environment Configuration
+- ✅ Application Configuration
+- ✅ Centralized Logging
+- ✅ Core Constants
+- ✅ FastAPI Bootstrap
+- ✅ Health Check API
+- ✅ API Versioning
+- ✅ Swagger Documentation
+- ✅ Health Response Schema
 
 ---
 
-## Git Commands
+## Current Milestone
 
-Commands to execute.
-
----
-
-## Commit Messages
-
-Suggested commit messages.
+➡ Database Foundation
 
 ---
 
-## Industry Best Practices
+## Upcoming Milestones
 
-Professional engineering recommendations.
+- PostgreSQL Integration
+- SQLAlchemy ORM
+- Alembic Migrations
+- Transaction Model
+- CRUD Operations
+- ML Dataset
+- Data Preprocessing
+- EDA
+- Feature Engineering
+- XGBoost Training
+- Risk Scoring Engine
+- Prediction API
+- React Dashboard
+- Docker
+- Deployment
+
+---
+
+# 🗺 Development Roadmap
+
+```
+Repository Setup
+        │
+        ▼
+Project Structure
+        │
+        ▼
+Backend Foundation
+        │
+        ▼
+FastAPI Bootstrap
+        │
+        ▼
+Health API
+        │
+        ▼
+Database Foundation
+        │
+        ▼
+Machine Learning Pipeline
+        │
+        ▼
+Prediction Engine
+        │
+        ▼
+Frontend Dashboard
+        │
+        ▼
+Testing
+        │
+        ▼
+Docker
+        │
+        ▼
+Deployment
+```
 
 ---
 
-## Common Mistakes
+> **Reminder**
+>
+> This project is being built as if it were going into production.
+>
+> Every design decision should prioritize maintainability, scalability, readability, and correctness over speed of implementation.
 
-Things to avoid.
-
----
-
-## Interview Questions
-
-Questions I should be able to answer.
-
----
-
-## Phase Checklist
-
-Verification before moving to the next phase.
-
----
+# ============================================================
+# PART 2 – COMPLETED DEVELOPMENT PHASES
+# ============================================================
 
 # ✅ Phase 1 – Planning & Repository Setup
 
 ## Goal
 
-Understand the business problem and prepare the project repository.
+Establish the project foundation before writing any code.
 
 ---
 
-## Concepts
+## Why This Phase Exists
 
+Professional software projects do not begin with coding.
+
+Before implementation, it is necessary to understand:
+
+- Business problem
+- Project scope
+- Technology stack
+- Architecture
+- Development workflow
+
+This prevents unnecessary redesign later.
+
+---
+
+## Concepts Learned
+
+- Transaction Risk Scoring
 - Fraud Detection
-- Risk Scoring
-- Machine Learning Pipeline
-- Software Architecture
 - Client-Server Architecture
+- Machine Learning Pipeline
+- Software Development Lifecycle
+- Clean Repository Organization
 
 ---
 
-## Tasks
+## Tasks Completed
 
-- [x] Decide project idea
-- [x] Define objectives
-- [x] Select technology stack
-- [x] Create GitHub repository
-- [x] Clone repository
-- [x] Create README.md
-- [x] Create DEVELOPMENT_GUIDE.md
-- [x] Add LICENSE
-- [x] Add .gitignore
-- [x] Plan architecture
-
----
-
-## Expected Output
-
-A fully initialized GitHub repository with documentation and a clear project plan.
+- [x] Finalized project idea
+- [x] Selected technology stack
+- [x] Created GitHub repository
+- [x] Cloned repository locally
+- [x] Added README.md
+- [x] Added LICENSE
+- [x] Added .gitignore
+- [x] Created DEVELOPMENT_GUIDE.md
+- [x] Defined overall architecture
 
 ---
 
 ## Files Created
 
+```
 README.md
-
-docs/DEVELOPMENT_GUIDE.md
 
 LICENSE
 
 .gitignore
 
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "chore: initialize project repository"
-
-git push origin main
+docs/
+    DEVELOPMENT_GUIDE.md
 ```
 
 ---
 
-## Commit Messages
+## Git Commit
 
 ```
 chore: initialize project repository
-
-docs: add project overview and architecture documentation
 ```
 
 ---
 
-## Industry Best Practices
+## Best Practices Followed
 
-- Never start coding without planning.
-- Understand the business problem first.
-- Maintain a clean repository structure.
-- Write documentation before implementation.
-- Use meaningful commit messages.
+- Planned before coding
+- Defined architecture first
+- Used meaningful repository name
+- Maintained clean Git history
 
 ---
 
-## Common Mistakes
+## Common Mistakes Avoided
 
 - Jumping directly into coding
-- Poor folder organization
-- No documentation
-- Generic commit messages
-- Mixing backend and ML code
+- Changing architecture repeatedly
+- Mixing documentation with implementation
 
 ---
 
 ## Interview Questions
 
-- What problem does this project solve?
-- What is transaction risk scoring?
-- Why did you choose FastAPI?
-- Why XGBoost?
+- Why did you choose this project?
+- What business problem does it solve?
+- Why FastAPI?
 - Why PostgreSQL?
-- Explain the high-level architecture.
+- Why XGBoost?
 
 ---
 
-## Phase Checklist
+## Definition of Done
 
-- [x] Repository Created
-- [x] README Added
-- [x] Development Guide Added
-- [x] Architecture Planned
-- [x] Git Initialized
-- [x] Ready for Phase 2
+- Repository initialized
+- Documentation created
+- Architecture planned
+- Ready for development
 
----
+============================================================
 
 # ✅ Phase 2 – Professional Project Structure
 
 ## Goal
 
-Design a scalable and maintainable project structure following industry best practices.
+Create a scalable folder structure suitable for production.
 
 ---
 
-## Concepts
+## Why This Phase Exists
 
-- Separation of Concerns
+Large projects become difficult to maintain when everything is placed in one directory.
+
+Separating responsibilities improves readability and scalability.
+
+---
+
+## Concepts Learned
+
 - Modular Architecture
-- Backend vs Frontend vs ML
-- Code Maintainability
-- Scalability
+- Separation of Concerns
+- Layered Backend Design
+- Scalable Repository Organization
 
 ---
 
-## Tasks
+## Tasks Completed
 
-- [ ] Create backend directory
-- [ ] Create frontend directory
-- [ ] Create ml directory
-- [ ] Create docs directory
-- [ ] Create tests directory
-- [ ] Create docker directory
-- [ ] Create .github directory
-- [ ] Organize project hierarchy
-
----
-
-## Expected Output
-
-A clean, production-ready project structure.
+- [x] Created backend folder
+- [x] Created frontend folder
+- [x] Created ml folder
+- [x] Created docker folder
+- [x] Created docs folder
+- [x] Created tests folder
+- [x] Organized backend package hierarchy
 
 ---
 
-## Files/Folders Created
+## Final Structure
 
 ```
 backend/
@@ -397,804 +649,201 @@ frontend/
 
 ml/
 
-tests/
-
 docker/
 
 docs/
+
+tests/
 
 .github/
 ```
 
 ---
 
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "chore: create professional project structure"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
+## Git Commit
 
 ```
 chore: create professional project structure
-
-docs: document repository structure
 ```
 
 ---
 
-## Industry Best Practices
+## Best Practices Followed
 
-- Keep ML code separate from backend.
-- Keep frontend independent.
-- Never mix notebooks with production code.
-- Group files by responsibility.
-- Follow consistent naming conventions.
+- Separate ML from Backend
+- Separate Backend from Frontend
+- Avoid monolithic project structure
+- Keep future scalability in mind
 
 ---
 
-## Common Mistakes
+## Common Mistakes Avoided
 
-- Placing everything in one folder
-- Mixing notebooks with APIs
-- Poor naming conventions
-- No separation of modules
+- Single-folder architecture
+- Mixing notebooks with backend code
+- Poor directory naming
 
 ---
 
 ## Interview Questions
 
+- Why modular architecture?
 - Why separate ML and Backend?
-- What is Clean Architecture?
-- Why modular project structure?
-- Explain Separation of Concerns.
+- What is Separation of Concerns?
 
 ---
 
-## Phase Checklist
+## Definition of Done
 
-- [ ] Folder Structure Created
+- Folder structure finalized
+- Repository organized
+- Ready for backend implementation
 
-- [ ] Git Commit Done
+============================================================
 
-- [ ] Documentation Updated
-
-- [ ] Ready for Phase 3
-
----
-
-# ✅ Phase 3 – Dataset Selection
+# ✅ Phase 3 – Core Backend Infrastructure
 
 ## Goal
 
-Select a suitable fraud detection dataset and understand every feature before building any model.
+Build the backend foundation before implementing APIs.
 
 ---
 
-## Concepts
+## Why This Phase Exists
 
-- Supervised Learning
-- Binary Classification
-- Fraud Detection
-- Target Variable
-- Features
+Every production backend requires centralized configuration, logging, and reusable constants.
 
----
-
-## Tasks
-
-- [ ] Select Dataset
-- [ ] Download Dataset
-- [ ] Study Feature Definitions
-- [ ] Identify Target Variable
-- [ ] Document Dataset Information
-- [ ] Check Dataset Size
-- [ ] Check Class Distribution
-
----
-
-## Expected Output
-
-A well-understood dataset ready for preprocessing.
-
----
-
-## Files Created
-
-```
-ml/data/
-
-dataset.csv
-
-dataset_description.md (optional)
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "feat: add fraud detection dataset"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-feat: add fraud detection dataset
-
-docs: document dataset features
-
-chore: organize dataset directory
-```
-
----
-
-## Industry Best Practices
-
-- Always understand the dataset before training.
-- Read documentation carefully.
-- Verify data quality.
-- Check class imbalance.
-- Keep raw data unchanged.
-
----
-
-## Common Mistakes
-
-- Training without understanding features
-- Editing raw dataset
-- Ignoring class imbalance
-
----
-
-## Interview Questions
-
-- Why this dataset?
-- What is the target variable?
-- Is the dataset balanced?
-- Why is class imbalance important?
-
----
-
-## Phase Checklist
-
-- [ ] Dataset Downloaded
-
-- [ ] Features Understood
-
-- [ ] Target Identified
-
-- [ ] Documentation Updated
-
-- [ ] Ready for Phase 4
-
----
-
-# ✅ Phase 4 – Data Preprocessing
-
-## Goal
-
-Clean the raw dataset and prepare it for machine learning.
-
----
-
-## Concepts
-
-- Missing Values
-- Duplicate Records
-- Outliers
-- Encoding
-- Data Cleaning
-- Data Validation
-
----
-
-## Tasks
-
-- [ ] Inspect Dataset
-- [ ] Handle Missing Values
-- [ ] Remove Duplicates
-- [ ] Fix Data Types
-- [ ] Encode Categorical Variables
-- [ ] Validate Clean Dataset
-- [ ] Save Processed Dataset
-
----
-
-## Expected Output
-
-A clean dataset suitable for analysis and training.
-
----
-
-## Files Created
-
-```
-ml/preprocessing/
-
-clean_data.py
-
-processed_dataset.csv
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "feat: implement preprocessing pipeline"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-feat: implement preprocessing pipeline
-
-feat: clean transaction dataset
-
-refactor: improve preprocessing workflow
-```
-
----
-
-## Industry Best Practices
-
-- Never modify raw data.
-- Keep preprocessing reproducible.
-- Use reusable functions.
-- Validate outputs after every transformation.
-
----
-
-## Common Mistakes
-
-- Hardcoding values
-- Deleting important records
-- Forgetting validation
-- Modifying original dataset
-
----
-
-## Interview Questions
-
-- Why preprocessing?
-- Why encode categorical variables?
-- Difference between Label Encoding and One-Hot Encoding?
-- How do you handle missing values?
-
----
-
-## Phase Checklist
-
-- [ ] Missing Values Handled
-
-- [ ] Duplicates Removed
-
-- [ ] Encoding Completed
-
-- [ ] Processed Dataset Saved
-
-- [ ] Ready for Phase 5
-
----
-
-# ✅ Phase 5 – Exploratory Data Analysis (EDA)
-
-## Goal
-
-Understand the data through statistical summaries and visualizations.
-
----
-
-## Concepts
-
-- Distribution
-- Correlation
-- Histograms
-- Boxplots
-- Heatmaps
-- Fraud Pattern Analysis
-
----
-
-## Tasks
-
-- [ ] Basic Statistics
-- [ ] Class Distribution
-- [ ] Correlation Matrix
-- [ ] Feature Distributions
-- [ ] Outlier Detection
-- [ ] Fraud Pattern Analysis
-- [ ] Visualization
-
----
-
-## Expected Output
-
-Clear understanding of the dataset and useful insights for feature engineering.
-
----
-
-## Files Created
-
-```
-ml/notebooks/
-
-eda.ipynb
-
-eda_report.md
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "feat: perform exploratory data analysis"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-feat: perform exploratory data analysis
-
-feat: visualize fraud patterns
-
-docs: summarize EDA findings
-```
-
----
-
-## Industry Best Practices
-
-- Always visualize before modeling.
-- Investigate class imbalance.
-- Understand correlations.
-- Document important observations.
-
----
-
-## Common Mistakes
-
-- Ignoring outliers
-- Looking only at averages
-- Drawing conclusions without visualization
-
----
-
-## Interview Questions
-
-- Why perform EDA?
-- What insights did you discover?
-- What is multicollinearity?
-- Why correlation analysis?
-
----
-
-## Phase Checklist
-
-- [ ] EDA Completed
-
-- [ ] Visualizations Created
-
-- [ ] Insights Documented
-
-- [ ] Ready for Phase 6
-
----
-
-# ✅ Phase 6 – Feature Engineering
-
-## Goal
-
-Transform raw variables into meaningful features that improve model performance.
-
----
-
-## Concepts
-
-- Feature Creation
-- Feature Selection
-- Scaling
-- Normalization
-- Standardization
-- Data Leakage
-
----
-
-## Tasks
-
-- [ ] Create New Features
-- [ ] Feature Scaling
-- [ ] Feature Selection
-- [ ] Remove Irrelevant Columns
-- [ ] Save Feature Pipeline
-
----
-
-## Expected Output
-
-An optimized feature set for model training.
-
----
-
-## Files Created
-
-```
-ml/features/
-
-feature_engineering.py
-
-feature_pipeline.pkl
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "feat: implement feature engineering pipeline"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-feat: engineer transaction features
-
-feat: implement feature scaling
-
-refactor: optimize feature engineering workflow
-```
-
----
-
-## Industry Best Practices
-
-- Prevent data leakage.
-- Keep transformations reproducible.
-- Save preprocessing pipeline.
-- Use only useful features.
-
----
-
-## Common Mistakes
-
-- Scaling target variable
-- Using future information
-- Creating unnecessary features
-
----
-
-## Interview Questions
-
-- What is Feature Engineering?
-- Why scale data?
-- What is Data Leakage?
-- Why Feature Selection?
-
----
-
-## Phase Checklist
-
-- [ ] Features Created
-
-- [ ] Scaling Applied
-
-- [ ] Pipeline Saved
-
-- [ ] Ready for Phase 7
-
----
-# ✅ Phase 7 – Model Training
-
-## Goal
-
-Train multiple machine learning models, compare their performance, select the best-performing model, and prepare it for production deployment.
-
----
-
-## Concepts
-
-- Supervised Learning
-- Binary Classification
-- Train/Test Split
-- Cross Validation
-- Overfitting
-- Underfitting
-- Bias-Variance Tradeoff
-- Hyperparameter Tuning
-
----
-
-## Tasks
-
-- [ ] Split Dataset
-- [ ] Train Baseline Model (Logistic Regression)
-- [ ] Train Decision Tree
-- [ ] Train Random Forest
-- [ ] Train XGBoost
-- [ ] Compare Models
-- [ ] Evaluate Performance
-- [ ] Hyperparameter Tuning
-- [ ] Save Best Model
-
----
-
-## Expected Output
-
-A trained XGBoost model ready for inference.
-
----
-
-## Files Created
-
-```
-ml/training/
-
-train.py
-
-evaluate.py
-
-saved_models/
-
-xgboost_model.pkl
-
-metrics.json
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "feat: train XGBoost fraud detection model"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-feat: implement model training pipeline
-
-feat: train baseline logistic regression model
-
-feat: train random forest model
-
-feat: train XGBoost fraud detection model
-
-feat: evaluate model performance
-
-feat: save trained model artifacts
-```
-
----
-
-## Industry Best Practices
-
-- Always compare multiple models.
-- Keep experiments reproducible.
-- Save trained models.
-- Save evaluation metrics.
-- Track hyperparameters.
-
----
-
-## Common Mistakes
-
-- Training on dirty data
-- Ignoring overfitting
-- No validation dataset
-- Saving only accuracy
-
----
-
-## Interview Questions
-
-- Why XGBoost?
-- Why not Random Forest?
-- Precision vs Recall?
-- ROC-AUC?
-- F1 Score?
-- Why Cross Validation?
-
----
-
-## Phase Checklist
-
-- [ ] Model Trained
-
-- [ ] Evaluation Completed
-
-- [ ] Best Model Saved
-
-- [ ] Metrics Recorded
-
-- [ ] Ready for Phase 8
-
----
-
-# ✅ Phase 8 – Risk Score Engine
-
-## Goal
-
-Convert fraud probability into an interpretable business risk score.
-
----
-
-## Concepts
-
-- Probability
-- Threshold
-- Risk Categorization
-- Business Rules
-- Decision Logic
-
----
-
-## Tasks
-
-- [ ] Load Model
-- [ ] Predict Probability
-- [ ] Convert Probability → Risk Score
-- [ ] Create Risk Categories
-- [ ] Handle Edge Cases
-- [ ] Return Standard Response
-
----
-
-## Expected Output
-
-A reusable risk scoring engine.
-
----
-
-## Files Created
-
-```
-backend/app/services/
-
-risk_engine.py
-
-prediction_service.py
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "feat: implement transaction risk scoring engine"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-feat: implement risk scoring engine
-
-feat: convert fraud probability into business risk score
-
-test: validate risk scoring logic
-```
-
----
-
-## Industry Best Practices
-
-- Keep business logic separate.
-- Make thresholds configurable.
-- Validate model output.
-- Handle invalid predictions.
-
----
-
-## Common Mistakes
-
-- Hardcoded thresholds
-- Mixing ML logic with API
-- Ignoring edge cases
-
----
-
-## Interview Questions
-
-- Why convert probability to score?
-- Why business rules?
-- Explain your scoring algorithm.
-
----
-
-## Phase Checklist
-
-- [ ] Risk Score Generated
-
-- [ ] Categories Working
-
-- [ ] Business Rules Implemented
-
-- [ ] Ready for Phase 9
-
----
-
-# ✅ Phase 9 – FastAPI Backend
-
-## Goal
-
-Develop a scalable REST API to expose the machine learning model.
+Without these, the project quickly becomes inconsistent.
 
 ---
 
-## Concepts
+## Concepts Learned
 
-- REST API
-- FastAPI
-- Dependency Injection
-- Request Validation
-- Response Models
-- Middleware
+- Environment Variables
+- Configuration Management
 - Logging
-- Exception Handling
+- Constants
+- Application Bootstrap
 
 ---
 
-## Tasks
+## Tasks Completed
 
-- [ ] Setup FastAPI Project
-- [ ] Configure Routing
-- [ ] Create Prediction Endpoint
-- [ ] Add Health Check Endpoint
-- [ ] Integrate ML Model
-- [ ] Validate Input
-- [ ] Standardize Responses
-- [ ] Logging
-- [ ] Exception Handling
+- [x] Created Python virtual environment
+- [x] Installed dependencies
+- [x] Configured pyproject.toml
+- [x] Created .env
+- [x] Created .env.example
+- [x] Implemented config.py
+- [x] Implemented logging.py
+- [x] Implemented constants.py
+- [x] Centralized application settings
 
 ---
 
-## Expected Output
+## Files Created
 
-Production-ready FastAPI backend.
+```
+backend/app/core/
+
+config.py
+
+logging.py
+
+constants.py
+```
+
+---
+
+## Git Commit
+
+```
+feat(core): implement application configuration and logging infrastructure
+```
+
+---
+
+## Best Practices Followed
+
+- Configuration separated from code
+- Logging centralized
+- Constants centralized
+- No magic values
+- Environment variables used
+
+---
+
+## Common Mistakes Avoided
+
+- Hardcoded configuration
+- Duplicate loggers
+- Scattered constants
+- Multiple configuration sources
+
+---
+
+## Interview Questions
+
+- Why use environment variables?
+- Why centralized logging?
+- Why separate constants?
+- Why use Pydantic Settings?
+
+---
+
+## Definition of Done
+
+- Configuration working
+- Logging working
+- Constants centralized
+- Backend foundation completed
+
+============================================================
+
+# ✅ Phase 4 – FastAPI Bootstrap & Health API
+
+## Goal
+
+Create the first working backend service.
+
+---
+
+## Why This Phase Exists
+
+Before building business logic, the backend itself must be verified.
+
+A Health API proves that:
+
+- FastAPI works
+- Routing works
+- Logging works
+- Configuration works
+- Swagger works
+
+---
+
+## Concepts Learned
+
+- FastAPI
+- Lifespan Events
+- API Routing
+- APIRouter
+- Swagger Documentation
+- Pydantic Response Models
+
+---
+
+## Tasks Completed
+
+- [x] Created FastAPI application
+- [x] Added lifespan events
+- [x] Integrated centralized logging
+- [x] Created Health Router
+- [x] Added API versioning
+- [x] Created HealthResponse schema
+- [x] Registered router
+- [x] Generated Swagger documentation
+- [x] Successfully tested API
 
 ---
 
@@ -1206,344 +855,463 @@ backend/app/
 main.py
 
 api/
+    health.py
 
 schemas/
-
-services/
-
-core/
-
-utils/
+    health.py
 ```
 
 ---
 
-## Git Commands
+## API Created
 
-```bash
-git add .
+```
+GET
 
-git commit -m "feat: initialize FastAPI backend"
-
-git push origin develop
+/api/v1/health/
 ```
 
 ---
 
-## Commit Messages
+## Expected Response
 
-```
-feat: initialize FastAPI backend
-
-feat: create prediction endpoint
-
-feat: integrate trained ML model
-
-feat: validate API requests using Pydantic
-
-feat: implement centralized error handling
-
-feat: configure logging
-
-docs: enable Swagger documentation
+```json
+{
+  "status": "healthy",
+  "service": "AI Transaction Risk Scoring System",
+  "version": "1.0.0"
+}
 ```
 
 ---
 
-## Industry Best Practices
+## Git Commit
 
-- Separate Routes and Services.
-- Validate every request.
-- Use dependency injection.
-- Return consistent responses.
-- Log important events.
+```
+feat(api): implement health check endpoint
+```
 
 ---
 
-## Common Mistakes
+## Best Practices Followed
 
-- Business logic inside routes
-- No validation
-- Poor exception handling
-- No logging
+- Modular routing
+- Versioned APIs
+- Pydantic schemas
+- Swagger documentation
+- No business logic in routes
+- Configuration-driven application
+
+---
+
+## Common Mistakes Avoided
+
+- Returning raw dictionaries everywhere
+- Writing routes inside main.py
+- Hardcoding API versions
+- No response validation
 
 ---
 
 ## Interview Questions
 
 - Why FastAPI?
+- Why APIRouter?
+- Why Health API?
 - Why Pydantic?
-- What is Dependency Injection?
-- What is Middleware?
-- Explain REST APIs.
+- What is Swagger?
+- Why API versioning?
 
 ---
 
-## Phase Checklist
+## Definition of Done
 
-- [ ] API Working
+- FastAPI running
+- Swagger generated
+- Health endpoint tested
+- Response schema implemented
+- Backend successfully bootstrapped
 
-- [ ] Swagger Generated
+============================================================
 
-- [ ] Validation Added
+# ✅ Current Status
 
-- [ ] Logging Configured
+Completed Milestones
 
-- [ ] Ready for Phase 10
+✔ Repository Setup
+
+✔ Project Structure
+
+✔ Backend Foundation
+
+✔ FastAPI Bootstrap
+
+✔ Health API
+
+----------------------------------------
+
+Current Milestone
+
+➡ Database Foundation
+
+----------------------------------------
+
+Overall Progress
+
+███████████████░░░░░░░░░░░░░░░░░
+
+25%
+
+# ============================================================
+# PART 3 – REMAINING DEVELOPMENT ROADMAP
+# ============================================================
+
+# 🎯 Development Strategy
+
+The remaining project will be developed in small, production-quality milestones.
+
+Every milestone must satisfy:
+
+- Understand the concept
+- Design the architecture
+- Generate one file at a time
+- Review every file
+- Refactor if needed
+- Test thoroughly
+- Commit
+- Push
+- Update documentation
+
+Never skip a milestone.
 
 ---
 
-# ✅ Phase 10 – PostgreSQL Integration
+# ✅ Phase 5 – Database Foundation
 
 ## Goal
 
-Store transactions and prediction history in PostgreSQL.
+Prepare the backend to communicate with PostgreSQL using SQLAlchemy.
 
 ---
 
 ## Concepts
 
-- Relational Database
+- PostgreSQL
 - SQLAlchemy ORM
-- Alembic
-- CRUD
-- Database Relationships
-- Transactions
+- Database Engine
+- Sessions
+- Declarative Base
+- Environment Variables
 
 ---
 
 ## Tasks
 
-- [ ] Configure PostgreSQL
-- [ ] Setup SQLAlchemy
-- [ ] Create Models
-- [ ] CRUD Operations
-- [ ] Alembic Migrations
-- [ ] Save Predictions
-- [ ] Retrieve History
+- [ ] Install PostgreSQL
+- [ ] Configure database connection
+- [ ] Create SQLAlchemy engine
+- [ ] Create SessionLocal
+- [ ] Create Declarative Base
+- [ ] Verify database connection
 
 ---
 
-## Expected Output
-
-Persistent transaction storage.
-
----
-
-## Files Created
+## Files
 
 ```
 backend/app/database/
 
-connection.py
+database.py
 
-models.py
+session.py
 
-crud.py
-
-migrations/
+base.py
 ```
 
 ---
 
-## Git Commands
+## Git Commit
 
-```bash
-git add .
-
-git commit -m "feat: integrate PostgreSQL database"
-
-git push origin develop
+```
+feat(database): initialize PostgreSQL connection
 ```
 
 ---
 
-## Commit Messages
-
-```
-feat: configure PostgreSQL database
-
-feat: create SQLAlchemy models
-
-feat: implement CRUD operations
-
-feat: persist prediction history
-
-feat: add Alembic migrations
-```
-
----
-
-## Industry Best Practices
-
-- Never write raw SQL everywhere.
-- Use ORM.
-- Keep migrations version-controlled.
-- Use indexes wisely.
-
----
-
-## Common Mistakes
-
-- No migrations
-- No indexing
-- Duplicate data
-- Poor schema design
-
----
-
-## Interview Questions
-
-- Why PostgreSQL?
-- Why SQLAlchemy?
-- Why Alembic?
-- ORM vs Raw SQL?
-
----
-
-## Phase Checklist
-
-- [ ] Database Connected
-
-- [ ] CRUD Working
-
-- [ ] Migrations Applied
-
-- [ ] Ready for Phase 11
-
----
-
-# ✅ Phase 11 – React Frontend
+# ✅ Phase 6 – Transaction Database Model
 
 ## Goal
 
-Build a modern frontend for interacting with the prediction API.
+Design database tables for storing transactions.
 
 ---
 
 ## Concepts
 
-- Components
-- State Management
-- Props
-- API Integration
-- Responsive Design
-- Reusable UI
+- ORM Models
+- Primary Key
+- Indexing
+- Constraints
+- Data Types
 
 ---
 
 ## Tasks
 
-- [ ] Setup React + Vite
-- [ ] Install Tailwind CSS
-- [ ] Build Prediction Form
-- [ ] Connect Backend API
-- [ ] Display Prediction Results
-- [ ] Error Handling
-- [ ] Loading States
-- [ ] Responsive Layout
+- [ ] Create Transaction model
+- [ ] Add timestamps
+- [ ] Configure indexes
+- [ ] Validate schema
 
 ---
 
-## Expected Output
-
-A responsive web interface.
-
----
-
-## Files Created
+## Files
 
 ```
-frontend/src/
+backend/app/models/
 
-components/
-
-pages/
-
-services/
-
-hooks/
-
-App.jsx
+transaction.py
 ```
 
 ---
 
-## Git Commands
+## Git Commit
 
-```bash
-git add .
-
-git commit -m "feat: initialize React frontend"
-
-git push origin develop
+```
+feat(database): implement transaction model
 ```
 
 ---
 
-## Commit Messages
-
-```
-feat: initialize React frontend
-
-feat: create transaction prediction form
-
-feat: connect FastAPI backend
-
-feat: display prediction results
-
-style: improve responsive UI
-
-refactor: organize frontend components
-```
-
----
-
-## Industry Best Practices
-
-- Build reusable components.
-- Keep API calls separate.
-- Handle loading and errors gracefully.
-- Avoid duplicated code.
-
----
-
-## Common Mistakes
-
-- Large components
-- Hardcoded URLs
-- No error handling
-- Poor folder organization
-
----
-
-## Interview Questions
-
-- Why React?
-- Why Vite?
-- How does React communicate with FastAPI?
-- What are Hooks?
-- What is Axios?
-
----
-
-## Phase Checklist
-
-- [ ] UI Completed
-
-- [ ] API Connected
-
-- [ ] Responsive Design
-
-- [ ] Ready for Phase 12
-
----
-
-# ✅ Phase 12 – Testing
+# ✅ Phase 7 – Database Migrations & CRUD
 
 ## Goal
 
-Ensure the application is reliable by testing individual components, APIs, and the complete workflow.
+Manage schema changes and database operations.
+
+---
+
+## Concepts
+
+- Alembic
+- CRUD
+- Repository Pattern
+- Sessions
+
+---
+
+## Tasks
+
+- [ ] Configure Alembic
+- [ ] Generate first migration
+- [ ] Apply migration
+- [ ] Create CRUD layer
+- [ ] Test database operations
+
+---
+
+## Files
+
+```
+backend/app/crud/
+
+transaction.py
+
+alembic/
+```
+
+---
+
+## Git Commit
+
+```
+feat(database): implement CRUD operations
+```
+
+---
+
+# ✅ Phase 8 – Machine Learning Pipeline
+
+## Goal
+
+Prepare the dataset and build a reusable ML pipeline.
+
+---
+
+## Concepts
+
+- Data Cleaning
+- Feature Engineering
+- Data Leakage
+- Train/Test Split
+
+---
+
+## Tasks
+
+- [ ] Select dataset
+- [ ] Clean dataset
+- [ ] Handle missing values
+- [ ] Feature engineering
+- [ ] Save preprocessing pipeline
+
+---
+
+## Git Commit
+
+```
+feat(ml): implement preprocessing pipeline
+```
+
+---
+
+# ✅ Phase 9 – Model Training
+
+## Goal
+
+Train and evaluate fraud detection models.
+
+---
+
+## Concepts
+
+- Logistic Regression
+- Random Forest
+- XGBoost
+- Cross Validation
+- Precision
+- Recall
+- ROC-AUC
+
+---
+
+## Tasks
+
+- [ ] Train baseline models
+- [ ] Train XGBoost
+- [ ] Hyperparameter tuning
+- [ ] Save best model
+- [ ] Save metrics
+
+---
+
+## Git Commit
+
+```
+feat(ml): train fraud detection model
+```
+
+---
+
+# ✅ Phase 10 – Risk Scoring Engine
+
+## Goal
+
+Convert ML probability into business-friendly risk scores.
+
+---
+
+## Concepts
+
+- Probability
+- Thresholds
+- Business Rules
+- Risk Categories
+
+---
+
+## Tasks
+
+- [ ] Load trained model
+- [ ] Predict probability
+- [ ] Generate risk score
+- [ ] Assign Low/Medium/High risk
+
+---
+
+## Git Commit
+
+```
+feat(service): implement risk scoring engine
+```
+
+---
+
+# ✅ Phase 11 – Prediction API
+
+## Goal
+
+Expose the ML model through FastAPI.
+
+---
+
+## Concepts
+
+- Request Validation
+- Response Models
+- Service Layer
+- Dependency Injection
+
+---
+
+## Tasks
+
+- [ ] Prediction endpoint
+- [ ] Validation
+- [ ] Error handling
+- [ ] Save prediction history
+- [ ] Logging
+
+---
+
+## Git Commit
+
+```
+feat(api): implement prediction endpoint
+```
+
+---
+
+# ✅ Phase 12 – React Dashboard
+
+## Goal
+
+Build a professional frontend dashboard.
+
+---
+
+## Concepts
+
+- React
+- Tailwind CSS
+- Axios
+- State Management
+
+---
+
+## Tasks
+
+- [ ] Setup React
+- [ ] Prediction Form
+- [ ] Dashboard
+- [ ] Charts
+- [ ] API Integration
+
+---
+
+## Git Commit
+
+```
+feat(frontend): implement dashboard
+```
+
+---
+
+# ✅ Phase 13 – Testing
+
+## Goal
+
+Ensure every component works correctly.
 
 ---
 
@@ -1553,502 +1321,167 @@ Ensure the application is reliable by testing individual components, APIs, and t
 - Integration Testing
 - API Testing
 - Test Coverage
-- Mocking
-- Regression Testing
 
 ---
 
 ## Tasks
 
-- [ ] Write unit tests for preprocessing
-- [ ] Write unit tests for feature engineering
-- [ ] Test model prediction
-- [ ] Test risk score engine
-- [ ] Test FastAPI endpoints
-- [ ] Test database operations
-- [ ] Measure test coverage
+- [ ] Backend tests
+- [ ] API tests
+- [ ] Database tests
+- [ ] ML tests
 
 ---
 
-## Expected Output
-
-A tested and reliable application.
-
----
-
-## Files Created
+## Git Commit
 
 ```
-tests/
-
-test_preprocessing.py
-
-test_model.py
-
-test_api.py
-
-test_database.py
+test: add automated tests
 ```
 
 ---
 
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "test: add automated tests"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-test: add preprocessing tests
-
-test: add model validation tests
-
-test: add FastAPI endpoint tests
-
-test: add database integration tests
-
-test: improve overall test coverage
-```
-
----
-
-## Industry Best Practices
-
-- Test every module independently.
-- Keep tests isolated.
-- Automate testing.
-- Never deploy untested code.
-
----
-
-## Common Mistakes
-
-- Testing manually only
-- Ignoring edge cases
-- No regression testing
-
----
-
-## Interview Questions
-
-- Why testing?
-- Difference between Unit and Integration Tests?
-- Why Pytest?
-- What is mocking?
-
----
-
-## Phase Checklist
-
-- [ ] Tests Passing
-- [ ] API Tested
-- [ ] Database Tested
-- [ ] Ready for Phase 13
-
----
-
-# ✅ Phase 13 – Dockerization
+# ✅ Phase 14 – Docker & Deployment
 
 ## Goal
 
-Containerize the application to ensure consistent execution across environments.
+Containerize and deploy the application.
 
 ---
 
 ## Concepts
 
-- Containers
-- Docker Images
+- Docker
 - Docker Compose
-- Environment Variables
-
----
-
-## Tasks
-
-- [ ] Create Backend Dockerfile
-- [ ] Create Frontend Dockerfile
-- [ ] Configure Docker Compose
-- [ ] Configure Environment Variables
-- [ ] Verify Local Deployment
-
----
-
-## Expected Output
-
-Complete application running through Docker.
-
----
-
-## Files Created
-
-```
-Dockerfile
-
-docker-compose.yml
-
-.env.example
-```
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "build: dockerize application"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-build: dockerize backend
-
-build: dockerize frontend
-
-build: configure docker compose
-```
-
----
-
-## Industry Best Practices
-
-- Keep images lightweight.
-- Use environment variables.
-- Ignore secrets.
-- Pin dependency versions.
-
----
-
-## Common Mistakes
-
-- Large images
-- Hardcoded credentials
-- Missing .dockerignore
-
----
-
-## Interview Questions
-
-- What is Docker?
-- Docker vs Virtual Machine?
-- What is Docker Compose?
-
----
-
-## Phase Checklist
-
-- [ ] Docker Working
-- [ ] Compose Working
-- [ ] Ready for Phase 14
-
----
-
-# ✅ Phase 14 – Deployment
-
-## Goal
-
-Deploy the complete application in a production-like environment.
-
----
-
-## Concepts
-
-- Deployment
-- Production Environment
-- Environment Variables
 - CI/CD
+- Production Environment
 
 ---
 
 ## Tasks
 
-- [ ] Configure production settings
-- [ ] Deploy backend
-- [ ] Deploy frontend
-- [ ] Configure database
-- [ ] Verify production deployment
+- [ ] Backend Dockerfile
+- [ ] Frontend Dockerfile
+- [ ] Docker Compose
+- [ ] Environment Variables
+- [ ] Deployment
 
 ---
 
-## Expected Output
+## Git Commit
 
-A publicly accessible deployed application.
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "deploy: prepare production deployment"
-
-git push origin develop
+```
+build: dockerize application
 ```
 
 ---
 
-## Commit Messages
-
-```
-deploy: configure production deployment
-
-deploy: publish backend
-
-deploy: publish frontend
-
-ci: configure deployment workflow
-```
-
----
-
-## Industry Best Practices
-
-- Separate development and production.
-- Secure environment variables.
-- Monitor application health.
-- Verify deployment after release.
-
----
-
-## Common Mistakes
-
-- Hardcoded secrets
-- Missing environment configuration
-- No deployment testing
-
----
-
-## Interview Questions
-
-- How did you deploy your project?
-- Why Docker for deployment?
-- What is CI/CD?
-
----
-
-## Phase Checklist
-
-- [ ] Backend Deployed
-- [ ] Frontend Deployed
-- [ ] Application Accessible
-- [ ] Ready for Phase 15
-
----
-
-# ✅ Phase 15 – Final Documentation
+# ✅ Phase 15 – Repository Polish & Release
 
 ## Goal
 
-Prepare complete project documentation for GitHub and future maintenance.
-
----
-
-## Concepts
-
-- Technical Documentation
-- User Documentation
-- API Documentation
+Prepare the repository for recruiters and production release.
 
 ---
 
 ## Tasks
 
-- [ ] Update README
-- [ ] Add setup instructions
+- [ ] Clean repository
+- [ ] Final documentation
 - [ ] Add screenshots
-- [ ] Add API examples
-- [ ] Review documentation
-
----
-
-## Expected Output
-
-Professional documentation suitable for recruiters and collaborators.
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "docs: finalize project documentation"
-
-git push origin develop
-```
-
----
-
-## Commit Messages
-
-```
-docs: improve README
-
-docs: add API usage examples
-
-docs: finalize project documentation
-```
-
----
-
-## Industry Best Practices
-
-- Keep documentation updated.
-- Include examples.
-- Make setup easy.
-
----
-
-## Common Mistakes
-
-- Outdated documentation
-- Missing setup instructions
-
----
-
-## Interview Questions
-
-- Why is documentation important?
-- How would another developer run your project?
-
----
-
-## Phase Checklist
-
-- [ ] README Updated
-- [ ] Documentation Complete
-- [ ] Ready for Phase 16
-
----
-
-# ✅ Phase 16 – Final Repository Polish & Release
-
-## Goal
-
-Perform final quality checks and prepare the project for release.
-
----
-
-## Tasks
-
-- [ ] Review project structure
-- [ ] Remove unused files
-- [ ] Format code
 - [ ] Verify tests
-- [ ] Verify Docker
-- [ ] Review documentation
-- [ ] Tag release
+- [ ] Create Release
 
 ---
 
-## Expected Output
-
-Production-ready GitHub repository.
-
----
-
-## Git Commands
-
-```bash
-git add .
-
-git commit -m "release: version 1.0.0"
-
-git tag v1.0.0
-
-git push origin main --tags
-```
-
----
-
-## Commit Messages
+## Git Commit
 
 ```
-refactor: clean project structure
-
-style: format codebase
-
 release: version 1.0.0
 ```
 
 ---
 
-## Industry Best Practices
+# 📈 Overall Roadmap
 
-- Never release broken code.
-- Review everything before tagging.
-- Keep releases versioned.
-
----
-
-## Common Mistakes
-
-- Skipping final testing
-- Forgetting documentation
-- Releasing unfinished features
-
----
-
-## Interview Questions
-
-- What would you improve next?
-- What challenges did you face?
-- What was your biggest learning?
-
----
-
-## Phase Checklist
-
-- [ ] All Tests Passed
-- [ ] Docker Verified
-- [ ] Documentation Complete
-- [ ] GitHub Repository Clean
-- [ ] Version Tagged
-- [ ] Project Released
-
----
-
-# 🌿 Git Commit Strategy
-
-| Phase | Approximate Commits |
-|--------|--------------------:|
-| Planning & Setup | 2 |
-| Project Structure | 2 |
-| Dataset Selection | 3 |
-| Data Preprocessing | 3 |
-| EDA | 3 |
-| Feature Engineering | 3 |
-| Model Training | 6 |
-| Risk Score Engine | 3 |
-| FastAPI Backend | 7 |
-| PostgreSQL | 5 |
-| React Frontend | 6 |
-| Dashboard & Analytics | 5 |
-| Testing | 5 |
-| Dockerization | 3 |
-| Deployment | 4 |
-| Documentation & Release | 4 |
-
-**Estimated Total:** **60–70 meaningful commits**
+```
+Planning
+    │
+    ▼
+Project Structure
+    │
+    ▼
+Backend Foundation
+    │
+    ▼
+FastAPI Bootstrap
+    │
+    ▼
+Health API
+    │
+    ▼
+Database Foundation
+    │
+    ▼
+Database Models
+    │
+    ▼
+CRUD Layer
+    │
+    ▼
+ML Pipeline
+    │
+    ▼
+Model Training
+    │
+    ▼
+Risk Scoring Engine
+    │
+    ▼
+Prediction API
+    │
+    ▼
+React Dashboard
+    │
+    ▼
+Testing
+    │
+    ▼
+Docker
+    │
+    ▼
+Deployment
+    │
+    ▼
+Version 1.0 Release
+```
 
 ---
 
-# 📅 Daily Progress Log
+# 🎯 Success Criteria
+
+The project will be considered complete only when:
+
+- Backend is production-ready.
+- Database is fully integrated.
+- ML model is trained and deployed.
+- Prediction API works.
+- React dashboard communicates with backend.
+- Docker setup is complete.
+- Automated tests pass.
+- Documentation is complete.
+- Git history is clean.
+- Project can be confidently demonstrated in interviews.
+
+# ============================================================
+# PART 4 – ENGINEERING HANDBOOK
+# ============================================================
+
+# 📅 Daily Development Log
+
+Use this section after every development session.
+
+---
 
 ## Date
 
@@ -2056,80 +1489,490 @@ release: version 1.0.0
 YYYY-MM-DD
 ```
 
-### Today's Goal
+---
+
+## Today's Goal
+
+Example:
+
+- Implement Health API
+- Configure PostgreSQL
+- Train XGBoost
+
+---
+
+## Concepts Learned
 
 -
 
-### Tasks Completed
-
 -
-
-### Problems Faced
-
--
-
-### Solution
-
--
-
-### Tomorrow's Plan
 
 -
 
 ---
 
-# 📚 Resources
+## Files Created
+
+-
+
+-
+
+-
+
+---
+
+## Files Modified
+
+-
+
+-
+
+-
+
+---
+
+## Problems Faced
+
+-
+
+-
+
+-
+
+---
+
+## Solution
+
+-
+
+-
+
+-
+
+---
+
+## Git Commit
+
+```
+git add .
+
+git commit -m ""
+
+git push origin main
+```
+
+---
+
+## Next Goal
+
+-
+
+-
+
+-
+
+============================================================
+
+# 📋 Phase Completion Checklist
+
+Every phase must satisfy ALL of these conditions.
+
+## Understanding
+
+- [ ] I understand why this phase exists.
+- [ ] I can explain every concept.
+- [ ] I can explain every file.
+
+---
+
+## Implementation
+
+- [ ] Feature works.
+- [ ] Code reviewed.
+- [ ] Refactored.
+- [ ] No duplicated logic.
+- [ ] No unused code.
+
+---
+
+## Testing
+
+- [ ] Tested manually.
+- [ ] Expected output verified.
+- [ ] No runtime errors.
+
+---
 
 ## Documentation
 
-- Python
-- FastAPI
-- React
-- PostgreSQL
-- SQLAlchemy
-- XGBoost
-- Docker
-
-## Practice Platforms
-
-- Kaggle
-- GitHub
-- LeetCode
-- HackerRank
+- [ ] README updated (if required)
+- [ ] DEVELOPMENT_GUIDE updated
+- [ ] Comments added only where necessary
 
 ---
 
-# 🎯 Final Resume Checklist
+## Git
 
-- [ ] End-to-End ML Pipeline
-- [ ] Fraud Detection Model
-- [ ] XGBoost
-- [ ] FastAPI Backend
-- [ ] PostgreSQL Integration
-- [ ] React Dashboard
-- [ ] Docker Support
-- [ ] Automated Testing
-- [ ] Production Deployment
-- [ ] Clean GitHub Repository
-- [ ] Professional Documentation
-- [ ] Explain Every Design Decision Confidently
+- [ ] Commit created
+- [ ] Push completed
+- [ ] Commit message follows Conventional Commits
+
+============================================================
+
+# 🔍 Pull Request Review Checklist
+
+Before accepting ANY AI-generated code, verify:
+
+## Architecture
+
+- [ ] Single Responsibility
+- [ ] Separation of Concerns
+- [ ] Modular Design
+- [ ] No unnecessary abstractions
 
 ---
+
+## Python
+
+- [ ] PEP8 compliant
+- [ ] Type hints
+- [ ] Proper naming
+- [ ] Docstrings
+- [ ] Readable code
+
+---
+
+## FastAPI
+
+- [ ] APIRouter used
+- [ ] Pydantic schema used
+- [ ] Response model defined
+- [ ] No business logic inside routes
+
+---
+
+## Database
+
+- [ ] SQLAlchemy ORM
+- [ ] No raw SQL unless necessary
+- [ ] Sessions handled correctly
+
+---
+
+## Machine Learning
+
+- [ ] Pipeline reusable
+- [ ] No data leakage
+- [ ] Model saved correctly
+
+---
+
+## Frontend
+
+- [ ] Components reusable
+- [ ] No duplicated UI
+- [ ] Responsive
+
+============================================================
+
+# 🧠 Interview Preparation Checklist
+
+For every completed phase, I should be able to answer:
+
+## Architecture
+
+- Why was this component needed?
+- Why this design?
+- What alternatives exist?
+- Why is this scalable?
+
+---
+
+## Backend
+
+- Why FastAPI?
+- Why APIRouter?
+- Why Pydantic?
+- Why Dependency Injection?
+
+---
+
+## Database
+
+- Why PostgreSQL?
+- Why SQLAlchemy?
+- Why Alembic?
+
+---
+
+## Machine Learning
+
+- Why XGBoost?
+- Why not Random Forest?
+- Explain Precision
+- Explain Recall
+- Explain ROC-AUC
+- Explain Cross Validation
+
+---
+
+## DevOps
+
+- Why Docker?
+- Why Docker Compose?
+- Explain CI/CD
+
+============================================================
+
+# 📚 Learning Notes
+
+Whenever a new concept is learned, document it here.
+
+Example:
+
+## Logging
+
+Why?
+
+-
+
+How?
+
+-
+
+Where is it used?
+
+-
+
+Interview Explanation
+
+-
+
+------------------------------------------------------------
+
+## SQLAlchemy
+
+Why?
+
+-
+
+How?
+
+-
+
+Interview Explanation
+
+-
+
+============================================================
+
+# 📝 Git History Tracker
+
+| Milestone | Commit |
+|------------|---------|
+| Repository Setup | ✅ |
+| Project Structure | ✅ |
+| Backend Infrastructure | ✅ |
+| Health API | ✅ |
+| Database Foundation | ⬜ |
+| Transaction Model | ⬜ |
+| CRUD | ⬜ |
+| ML Pipeline | ⬜ |
+| Model Training | ⬜ |
+| Risk Engine | ⬜ |
+| Prediction API | ⬜ |
+| React Dashboard | ⬜ |
+| Testing | ⬜ |
+| Docker | ⬜ |
+| Deployment | ⬜ |
+
+============================================================
+
+# 🚫 Common Mistakes
+
+Never:
+
+❌ Skip planning
+
+❌ Accept AI code blindly
+
+❌ Mix backend and ML logic
+
+❌ Hardcode configuration
+
+❌ Write business logic inside routes
+
+❌ Duplicate code
+
+❌ Skip testing
+
+❌ Skip Git commits
+
+❌ Skip documentation
+
+============================================================
+
+# ⭐ Best Practices
+
+Always:
+
+✅ Build one feature at a time
+
+✅ Generate one file at a time
+
+✅ Review before accepting
+
+✅ Refactor if needed
+
+✅ Test before committing
+
+✅ Push after milestones
+
+✅ Keep commits meaningful
+
+✅ Keep architecture clean
+
+✅ Understand before coding
+
+============================================================
 
 # 🏁 Definition of Done
 
-The project is considered complete when:
+A phase is complete only if:
 
-- All planned features are implemented.
-- Tests pass successfully.
-- Backend and frontend communicate correctly.
-- Predictions are stored in PostgreSQL.
-- The application runs using Docker.
-- The project is deployed successfully.
-- Documentation is complete and up to date.
-- The Git history is clean and meaningful.
-- The project is ready to be showcased on GitHub and discussed confidently in interviews.
+- Feature implemented
+- Code reviewed
+- Refactored
+- Tested
+- Documentation updated
+- Commit created
+- Push completed
+
+Otherwise:
+
+THE PHASE IS NOT COMPLETE.
+
+============================================================
+
+# 📄 Resume Readiness Checklist
+
+Before adding this project to my resume:
+
+- [ ] Project fully functional
+- [ ] Clean Git history
+- [ ] Production architecture
+- [ ] Docker support
+- [ ] Tests written
+- [ ] Swagger documented
+- [ ] Professional README
+- [ ] Deployment complete
+- [ ] Screenshots added
+- [ ] Can explain every file
+
+============================================================
+
+# 🚀 Final Release Checklist
+
+Before Version 1.0:
+
+Backend
+
+- [ ] Complete
+
+Database
+
+- [ ] Complete
+
+Machine Learning
+
+- [ ] Complete
+
+Frontend
+
+- [ ] Complete
+
+Testing
+
+- [ ] Complete
+
+Docker
+
+- [ ] Complete
+
+Deployment
+
+- [ ] Complete
+
+Documentation
+
+- [ ] Complete
+
+Git History
+
+- [ ] Clean
+
+README
+
+- [ ] Professional
+
+============================================================
+
+# 🎯 Personal Rules
+
+Throughout this project I will:
+
+- Never rush.
+- Never skip architecture.
+- Never accept code I don't understand.
+- Always ask "Why?" before "How?".
+- Keep every commit meaningful.
+- Write code that I can confidently explain.
+- Build for production quality, not just project completion.
+
+============================================================
+
+# 💡 Final Reminder
+
+This project is not just about creating a transaction risk scoring system.
+
+It is about learning how professional software is built.
+
+Every phase should leave me with:
+
+- Better engineering skills
+- Better Git practices
+- Better backend knowledge
+- Better ML understanding
+- Better interview confidence
+
+Quality over speed.
+
+Understand before coding.
+
+Think before generating.
+
+Review before accepting.
+
+Build one milestone at a time.
+
+```
 
 ---
 
-> **Remember:** Build one phase at a time. Focus on understanding *why* each component exists, not just *how* to code it. A production-quality project is the result of consistent, well-documented progress—not rushing to the finish line.
+# 🎉 Congratulations!
+
+Now you have a **complete engineering handbook** instead of a simple project guide.
+
+## What makes this different?
+
+This guide is based on **our actual workflow**, not a generic template:
+
+- ✅ One-file-at-a-time development
+- ✅ Antigravity + ChatGPT collaboration
+- ✅ Mandatory code reviews
+- ✅ Milestone-based commits
+- ✅ Production architecture
+- ✅ Interview-focused learning
+- ✅ Definition of Done for every phase
+
+This document can now evolve with the project and serve as the single reference for how you build, review, and document every future milestone.

@@ -21,6 +21,7 @@ class AppSettings(BaseSettings):
 
     api_prefix: str = "/api/v1"
     log_level: str = "INFO"
+    database_url: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env",
