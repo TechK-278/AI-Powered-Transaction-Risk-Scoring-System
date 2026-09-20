@@ -10,7 +10,7 @@ The project is built incrementally across 14 structured phases.
 | **04** | **Dataset Selection & EDA** | ✅ Completed | Acquire fraud dataset, exploratory data analysis, class imbalance analysis. |
 | **05** | **Data Preprocessing & Feature Engineering**| ✅ Completed | Cleaning pipelines, encoders, feature transformations, train/test split. |
 | **06** | **Model Training & Evaluation** | ✅ Completed | XGBoost training, hyperparameter tuning, ROC-AUC / PR-AUC assessment. |
-| **07** | **Risk Score Engine** | ⏳ Pending | Probability calibration, 0–100 risk score transformation, risk categorization. |
+| **07** | **Risk Score Engine** | ✅ Completed | Probability calibration, 0–100 risk score transformation, risk categorization. |
 | **08** | **FastAPI Backend Expansion** | ⏳ Pending | Prediction API routes, input validation schemas, error handlers. |
 | **09** | **PostgreSQL Integration & Alembic** | ⏳ Pending | Transaction tables, ORM models, session integration, migration scripts. |
 | **10** | **React Frontend Development** | ⏳ Pending | Vite setup, Tailwind design system, transaction submission form. |

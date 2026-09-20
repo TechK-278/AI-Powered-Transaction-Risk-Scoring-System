@@ -40,14 +40,21 @@
    * Exported serialized model artifact `fraud_model.joblib` and `model_metadata.json`.
    * Executed reproducible training notebook `ml/notebooks/03_model_training.ipynb`.
    * Comprehensive unit & integration tests in `tests/test_training.py`.
+8. **Risk Score Engine (Phase 7):**
+   * Implemented standalone, constant-time `RiskScoreEngine` and `RiskAssessment` in `backend/app/ml/risk_engine.py`.
+   * Maps fraud probability $P(\text{Class}=1) \in [0.0, 1.0]$ into normalized 0–100 integer scores using standard half-up rounding.
+   * Categorizes scores into Low (0–30: Lower modeled fraud risk), Medium (31–70: Moderate modeled fraud risk), and High (71–100: Higher modeled fraud risk).
+   * Downstream transaction policies and operational actions remain explicitly outside Phase 7 scope.
+   * Enforces strict monotonicity and validates numerical bounds, rejecting NaNs, infinities, and invalid inputs.
+   * Fully verified with comprehensive unit tests in `tests/test_risk_engine.py`.
 
 ---
 
 ## Pending Components
-1. **Machine Learning (`ml/`, `backend/app/ml/`):**
-   * Phase 07: Risk score engine (probability calibration, 0–100 mapping, Low/Medium/High threshold categorization).
-   * Online predictor and risk engine implementations (`loader.py`, `predictor.py`, `risk_engine.py`).
-2. **Backend Services & Entities (`backend/app/`):**
+1. **Machine Learning & Backend API (`backend/app/ml/`, `backend/app/api/`):**
+   * Phase 08: FastAPI prediction endpoints, input validation schemas, inference pipeline (`loader.py`, `predictor.py`, `preprocessing.py`).
+2. **Backend Persistence & Entities (`backend/app/`):**
+   * Phase 09: PostgreSQL integration, SQLAlchemy ORM models, Alembic migrations.
    * SQLAlchemy ORM models in `backend/app/models/`.
    * Alembic migration environment and initial schema migrations.
    * Transaction evaluation and analytics API endpoints.

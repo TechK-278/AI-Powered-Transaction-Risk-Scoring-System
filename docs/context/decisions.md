@@ -64,3 +64,19 @@
   4. Evaluate generalization on the untouched test partition using PR-AUC (Average Precision), F1, Recall, and Precision rather than raw classification accuracy.
   5. Export serialized model (`fraud_model.joblib`) and structured metadata record (`model_metadata.json`).
 * **Consequence:** High discriminative performance (PR-AUC = 0.7761, ROC-AUC = 0.9656, F1 = 0.8029) on unseen test transactions while maintaining an extremely low false positive rate (11 false positives out of 42,488 legitimate transactions).
+
+---
+
+## ADR-008: Risk Scoring Formula, Categorization Boundaries & Validation Engine
+* **Status:** Accepted
+* **Context:** Real-time financial transaction risk systems require an intuitive, normalized score (0–100) and standardized modeled risk categories (Low, Medium, High) for downstream operational interpretation and consumption.
+* **Decision:**
+  1. Map raw model fraud probability $P(\text{Class}=1) \in [0.0, 1.0]$ to integer risk score via $\text{score} = \text{round}(P \cdot 100)$ using standard mathematical half-up rounding (`Decimal.quantize(ROUND_HALF_UP)`).
+  2. Classify integer risk score into non-overlapping modeled risk categories:
+     - **Low:** $0 \le \text{score} \le 30$ — Lower modeled fraud risk
+     - **Medium:** $31 \le \text{score} \le 70$ — Moderate modeled fraud risk
+     - **High:** $71 \le \text{score} \le 100$ — Higher modeled fraud risk
+  3. Enforce strict input validation in `RiskScoreEngine`: Reject non-numeric types, NaNs, infinities, and values outside $[0.0, 1.0]$ with descriptive `ValueError`/`TypeError` exceptions.
+  4. Maintain constant-time ($O(1)$) execution independent of network, database, or disk I/O.
+  5. Downstream transaction actions and business-policy enforcement are explicitly outside the scope of Phase 7 and will be defined during later backend development phases.
+* **Consequence:** Deterministic, strictly monotonic risk assessment with clean separation between statistical risk modeling and downstream policy execution.
