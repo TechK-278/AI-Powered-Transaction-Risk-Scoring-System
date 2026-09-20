@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *.pyo
 
-# Virtual environment
+# Virtual environments
 backend/env/
 .venv/
 venv/
@@ -16,7 +16,7 @@ env/
 .vscode/
 .idea/
 
-# Node
+# Node.js
 node_modules/
 
 # Python tooling
@@ -27,22 +27,19 @@ node_modules/
 dist/
 build/
 
+# Logs
+logs/
+*.log
+*.jsonl
+
 # OS
 .DS_Store
 Thumbs.db
 
-# Virtual Environment
-.venv/
-
-# Environment
-.env
-
-# Python
-__pycache__/
-*.py[cod]
-
-# IDE
-.vscode/
-
-# Node
-node_modules/
+# Machine learning data and artifacts
+ml/data/raw/*.csv
+ml/data/raw/*.zip
+ml/data/processed/*.csv
+ml/data/processed/*.parquet
+ml/saved_models/*.joblib
+ml/saved_models/*.json
