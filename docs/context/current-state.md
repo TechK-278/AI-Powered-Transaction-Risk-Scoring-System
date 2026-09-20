@@ -32,13 +32,20 @@
    * Serialized fitted `preprocessor.joblib` artifact.
    * Complete reproducible preprocessing notebook in `ml/notebooks/02_preprocessing.ipynb`.
    * Comprehensive unit and integration test suite in `tests/test_preprocessing.py`.
+7. **Model Training & Evaluation (Phase 6):**
+   * Modular training package created under `ml/src/training/` (`train.py`, `evaluate.py`, `metrics.py`).
+   * Trained `xgboost.XGBClassifier` with dynamically calculated `scale_pos_weight = 599.02`.
+   * Performed threshold optimization on validation set to maximize F1-score (optimal threshold = 0.95).
+   * Verified generalization on 42,559 test transactions: PR-AUC = 0.7761, ROC-AUC = 0.9656, F1 = 0.8029, Precision = 83.33%, Recall = 77.46%.
+   * Exported serialized model artifact `fraud_model.joblib` and `model_metadata.json`.
+   * Executed reproducible training notebook `ml/notebooks/03_model_training.ipynb`.
+   * Comprehensive unit & integration tests in `tests/test_training.py`.
 
 ---
 
 ## Pending Components
 1. **Machine Learning (`ml/`, `backend/app/ml/`):**
-   * Phase 06: Model training script (`xgboost.XGBClassifier`), class imbalance weighting, and serialized model artifact.
-   * Phase 07: Risk score engine (0–100 calibration, threshold tiers).
+   * Phase 07: Risk score engine (probability calibration, 0–100 mapping, Low/Medium/High threshold categorization).
    * Online predictor and risk engine implementations (`loader.py`, `predictor.py`, `risk_engine.py`).
 2. **Backend Services & Entities (`backend/app/`):**
    * SQLAlchemy ORM models in `backend/app/models/`.

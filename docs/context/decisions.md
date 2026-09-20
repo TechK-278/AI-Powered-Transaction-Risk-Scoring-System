@@ -51,3 +51,16 @@
   5. Encapsulate all feature transformations inside a serializable Scikit-learn transformer (`TransactionFeatureTransformer`) exported via `joblib` for both batch model training and online single-transaction FastAPI evaluation.
   6. Defer class re-weighting / sampling techniques to Phase 06 model optimization.
 * **Consequence:** 100% deterministic transformation parity between offline experimentation and online real-time inference with zero data leakage.
+
+---
+
+## ADR-007: XGBoost Model Configuration, Dynamic Class Weighting & Threshold Optimization
+* **Status:** Accepted
+* **Context:** Financial fraud detection features severe class imbalance (~599:1). Unweighted models exhibit poor fraud recall, while uncalibrated probability thresholds lead to unacceptable false alarm rates in high-throughput banking systems.
+* **Decision:**
+  1. Train `xgboost.XGBClassifier` with histogram tree method (`tree_method='hist'`), 200 estimators, depth 5, learning rate 0.05, and L1/L2 regularization (`reg_alpha=0.1`, `reg_lambda=1.0`).
+  2. Dynamically calculate `scale_pos_weight = N_neg / N_pos = 599.02` from training labels, avoiding artificial synthetic data generation (SMOTE) and preserving natural feature relationships.
+  3. Perform a systematic decision threshold sweep on the **Validation Set** to find the threshold maximizing $F_1$-score ($\text{threshold} = 0.95$).
+  4. Evaluate generalization on the untouched test partition using PR-AUC (Average Precision), F1, Recall, and Precision rather than raw classification accuracy.
+  5. Export serialized model (`fraud_model.joblib`) and structured metadata record (`model_metadata.json`).
+* **Consequence:** High discriminative performance (PR-AUC = 0.7761, ROC-AUC = 0.9656, F1 = 0.8029) on unseen test transactions while maintaining an extremely low false positive rate (11 false positives out of 42,488 legitimate transactions).

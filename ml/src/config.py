@@ -22,8 +22,10 @@ TRAIN_DATA_FILE = PROCESSED_DATA_DIR / "train.csv"
 VAL_DATA_FILE = PROCESSED_DATA_DIR / "validation.csv"
 TEST_DATA_FILE = PROCESSED_DATA_DIR / "test.csv"
 
-# Preprocessor Artifact Path
+# Model Artifact Paths
 PREPROCESSOR_ARTIFACT_FILE = SAVED_MODELS_DIR / "preprocessor.joblib"
+FRAUD_MODEL_ARTIFACT_FILE = SAVED_MODELS_DIR / "fraud_model.joblib"
+MODEL_METADATA_FILE = SAVED_MODELS_DIR / "model_metadata.json"
 
 # Reproducibility Seed
 RANDOM_SEED = 42
@@ -47,3 +49,15 @@ ENGINEERED_FEATURE_NAMES = (
     PCA_COLUMNS
     + ["hour_sin", "hour_cos", "amount_log"]
 )
+
+# XGBoost Training Hyperparameters
+DEFAULT_N_ESTIMATORS = 200
+DEFAULT_MAX_DEPTH = 5
+DEFAULT_LEARNING_RATE = 0.05
+DEFAULT_SUBSAMPLE = 0.8
+DEFAULT_COLSAMPLE_BYTREE = 0.8
+DEFAULT_MIN_CHILD_WEIGHT = 3
+DEFAULT_REG_ALPHA = 0.1
+DEFAULT_REG_LAMBDA = 1.0
+DEFAULT_EVAL_METRIC = "logloss"
+

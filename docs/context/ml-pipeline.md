@@ -40,21 +40,42 @@ FastAPI Request ➔ Input Validation ➔ Feature Preprocessor ➔ Model Predicto
 ---
 
 ## 3. Model Training & Selection
-* **Algorithm:** `xgboost.XGBClassifier`
-* **Hyperparameter Tuning Strategy:** `TODO — Not yet defined` (e.g., Optuna / RandomizedSearchCV).
-* **Handling Class Imbalance:** `TODO — Not yet defined` (e.g. `scale_pos_weight`, SMOTE, PR-AUC thresholding).
+* **Algorithm:** `xgboost.XGBClassifier` (histogram tree method: `tree_method='hist'`)
+* **Hyperparameter Configuration:**
+  * `n_estimators`: 200
+  * `max_depth`: 5
+  * `learning_rate`: 0.05
+  * `subsample`: 0.8
+  * `colsample_bytree`: 0.8
+  * `min_child_weight`: 3
+  * `reg_alpha`: 0.1
+  * `reg_lambda`: 1.0
+  * `eval_metric`: `"logloss"`
+  * `random_state`: 42
+* **Handling Class Imbalance:** Dynamically calculated scale penalization: $\text{scale\_pos\_weight} = N_{\text{neg}} / N_{\text{pos}} = 198,277 / 331 = 599.02$.
+* **Training Modules:** `ml/src/training/` (`train.py`, `evaluate.py`, `metrics.py`)
 
 ---
 
-## 4. Evaluation Metrics
-* **Key Metrics:** Precision, Recall, F1-score, ROC-AUC, PR-AUC (Precision-Recall AUC), Confusion Matrix.
-* **Evaluation Scripts:** `ml/evaluation/` (`TODO — Not yet defined`).
+## 4. Evaluation Metrics & Threshold Optimization
+* **Primary Metric:** **PR-AUC (Average Precision)** and **F1-Score** (due to 599:1 class imbalance).
+* **Threshold Tuning Strategy:** Decision threshold swept across $[0.05, 0.95]$ strictly on the validation partition to maximize $F_1$-score ($\text{threshold} = 0.95$).
+* **Measured Test Results (42,559 unseen test transactions):**
+  * **Precision:** 83.33% (55 true fraud, 11 false alarms out of 42,488 legit)
+  * **Recall:** 77.46% (55 detected out of 71 actual fraud)
+  * **F1-Score:** 0.8029
+  * **PR-AUC (Average Precision):** 0.7761
+  * **ROC-AUC:** 0.9656
+  * **Accuracy:** 99.937% (reported with context; not used as optimization objective)
+  * **Confusion Matrix:** $\text{TN}=42,477, \text{FP}=11, \text{FN}=16, \text{TP}=55$
 
 ---
 
 ## 5. Model Serialization & Runtime Engine
 * **Artifact Directory:** `ml/saved_models/`
-* **Serialization Format:** `.joblib` / `.json`
-* **Inference Loader:** `backend/app/ml/loader.py` (`TODO — Not yet defined`).
-* **Prediction Engine:** `backend/app/ml/predictor.py` (`TODO — Not yet defined`).
+* **Serialized Model:** `ml/saved_models/fraud_model.joblib`
+* **Model Metadata:** `ml/saved_models/model_metadata.json`
+* **Inference Loader:** `backend/app/ml/loader.py` (`TODO — Phase 8`).
+* **Prediction Engine:** `backend/app/ml/predictor.py` (`TODO — Phase 8`).
+* **Risk Engine:** `backend/app/ml/risk_engine.py` (`TODO — Phase 7`) converts fraud probabilities to 0–100 integer scores with threshold categorization.
 * **Risk Engine:** `backend/app/ml/risk_engine.py` converts fraud probabilities to 0–100 integer scores with threshold categorization.
