@@ -24,14 +24,21 @@
    * ULB Credit Card Fraud dataset acquired and verified under `ml/data/raw/creditcard.csv`.
    * Complete EDA notebook implemented and executed under `ml/notebooks/01_dataset_eda.ipynb`.
    * Data Quality and EDA Report generated in `docs/eda-report.md`.
+6. **Data Preprocessing & Feature Engineering (Phase 5):**
+   * Modular preprocessing package created under `ml/src/` (`config.py`, `data_cleaning.py`, `feature_engineering.py`, `pipeline.py`).
+   * Cleaned dataset and resolved 1,081 duplicate records.
+   * Generated stratified 70/15/15 train/val/test splits with zero leakage.
+   * Engineered cyclic temporal features (`hour_sin`, `hour_cos`) and scaled log amount (`amount_log`).
+   * Serialized fitted `preprocessor.joblib` artifact.
+   * Complete reproducible preprocessing notebook in `ml/notebooks/02_preprocessing.ipynb`.
+   * Comprehensive unit and integration test suite in `tests/test_preprocessing.py`.
 
 ---
 
 ## Pending Components
 1. **Machine Learning (`ml/`, `backend/app/ml/`):**
-   * Phase 05: Feature preprocessing pipeline implementation and leakage-free train/validation/test split.
-   * Phase 06: Model training script and serialized XGBoost model artifact (`.joblib`).
-   * Phase 07: Model evaluation and threshold calibration.
+   * Phase 06: Model training script (`xgboost.XGBClassifier`), class imbalance weighting, and serialized model artifact.
+   * Phase 07: Risk score engine (0–100 calibration, threshold tiers).
    * Online predictor and risk engine implementations (`loader.py`, `predictor.py`, `risk_engine.py`).
 2. **Backend Services & Entities (`backend/app/`):**
    * SQLAlchemy ORM models in `backend/app/models/`.

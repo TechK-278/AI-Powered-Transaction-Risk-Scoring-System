@@ -24,12 +24,18 @@ FastAPI Request ➔ Input Validation ➔ Feature Preprocessor ➔ Model Predicto
 ---
 
 ## 2. Preprocessing & Feature Engineering
-* **Offline Modules:** `ml/preprocessing/`, `ml/features/`
-* **Online Modules:** `backend/app/ml/preprocessing.py`
-* **Handling Missing Values:** `TODO — Not yet defined`
-* **Encoding Categorical Features:** `TODO — Not yet defined` (e.g., Target Encoding / One-Hot / Frequency Encoding).
-* **Numerical Scaling:** `TODO — Not yet defined`
-* **Temporal & Behavioral Features:** `TODO — Not yet defined` (e.g. transaction hour, transaction frequency, amount vs user average).
+* **Offline Modules:** `ml/src/preprocessing/` (`data_cleaning.py`, `feature_engineering.py`, `pipeline.py`)
+* **Online Modules:** `backend/app/ml/preprocessing.py` (inherits / wraps `TransactionFeatureTransformer`)
+* **Cleaning & Duplicates:** Missing values = 0; 1,081 duplicate transactions dropped (yielding 283,726 unique transactions) to prevent data leakage between train/val/test partitions.
+* **Stratified Partitioning:** 70% Train (198,608 rows, 331 fraud), 15% Validation (42,559 rows, 71 fraud), 15% Test (42,559 rows, 71 fraud); Random Seed = 42; Stratified on `Class`.
+* **Temporal Features:** Continuous cyclic trigonometric transformation:
+  * $\text{hour} = (\text{Time} / 3600) \pmod{24}$
+  * $\text{hour}_{\sin} = \sin(2\pi \cdot \text{hour} / 24)$
+  * $\text{hour}_{\cos} = \cos(2\pi \cdot \text{hour} / 24)$
+  * Raw elapsed `Time` is dropped to prevent temporal epoch overfitting during online inference.
+* **Amount Transformation & Scaling:** $\text{amount\_log} = \log(1 + \text{Amount})$ followed by Scikit-learn `RobustScaler(with_centering=True, with_scaling=True)` fitted **strictly** on the training partition.
+* **PCA Features:** Orthogonal components `V1`–`V28` passed through directly in deterministic order.
+* **Preprocessed Artifact:** Serialized Scikit-learn pipeline saved to `ml/saved_models/preprocessor.joblib`.
 
 ---
 

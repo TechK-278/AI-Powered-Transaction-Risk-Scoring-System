@@ -37,3 +37,17 @@
 * **Context:** Antigravity and external analysis tools (such as ChatGPT) require synchronized, verified project context without compromising security or exposing `.env` files.
 * **Decision:** Standardize project context into structured markdown files (`docs/context/*.md`) exposed via a local read-only stdio MCP server.
 * **Consequence:** Antigravity and external tools read from a single source of truth without granting write access or network/credential exposure.
+
+---
+
+## ADR-006: Preprocessing, Feature Engineering & Leakage Prevention Strategy
+* **Status:** Accepted
+* **Context:** High-consequence financial fraud detection requires absolute prevention of data leakage between training, validation, and testing partitions. Furthermore, online inference requires exact parity with offline training feature transformations.
+* **Decision:**
+  1. Remove duplicate records (1,081 rows) prior to splitting to prevent exact observation leakage between partitions.
+  2. Use a fixed 70/15/15 Stratified Split (`stratify=y`, seed=42) preserving minority fraud proportion (0.1668%).
+  3. Transform elapsed seconds into 24-hour continuous trigonometric coordinates (`hour_sin`, `hour_cos`) and drop raw `Time` to prevent temporal epoch overfitting.
+  4. Apply $\log(1 + \text{Amount})$ with Scikit-learn `RobustScaler` fitted **exclusively** on the training partition (`X_train`).
+  5. Encapsulate all feature transformations inside a serializable Scikit-learn transformer (`TransactionFeatureTransformer`) exported via `joblib` for both batch model training and online single-transaction FastAPI evaluation.
+  6. Defer class re-weighting / sampling techniques to Phase 06 model optimization.
+* **Consequence:** 100% deterministic transformation parity between offline experimentation and online real-time inference with zero data leakage.

@@ -7,8 +7,8 @@ The project is built incrementally across 14 structured phases.
 | **01** | **Planning & Architecture** | ✅ Completed | High-level system design, technology stack selection, and documentation. |
 | **02** | **Folder Structure & Scaffolding** | ✅ Completed | Backend, frontend, ML, docs, and test directory hierarchy creation. |
 | **03** | **Project Setup & Health API** | ✅ Completed | FastAPI initialization, Pydantic settings, logging, and `GET /api/v1/health/`. |
-| **04** | **Dataset Selection & EDA** | ⏳ Pending | Acquire fraud dataset, exploratory data analysis, class imbalance analysis. |
-| **05** | **Data Preprocessing & Feature Engineering**| ⏳ Pending | Cleaning pipelines, encoders, feature transformations, train/test split. |
+| **04** | **Dataset Selection & EDA** | ✅ Completed | Acquire fraud dataset, exploratory data analysis, class imbalance analysis. |
+| **05** | **Data Preprocessing & Feature Engineering**| ✅ Completed | Cleaning pipelines, encoders, feature transformations, train/test split. |
 | **06** | **Model Training & Evaluation** | ⏳ Pending | XGBoost training, hyperparameter tuning, ROC-AUC / PR-AUC assessment. |
 | **07** | **Risk Score Engine** | ⏳ Pending | Probability calibration, 0–100 risk score transformation, risk categorization. |
 | **08** | **FastAPI Backend Expansion** | ⏳ Pending | Prediction API routes, input validation schemas, error handlers. |
