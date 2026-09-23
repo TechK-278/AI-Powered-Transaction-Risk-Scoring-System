@@ -75,11 +75,11 @@ FastAPI Request ➔ Input Validation ➔ Feature Preprocessor ➔ Model Predicto
 * **Artifact Directory:** `ml/saved_models/`
 * **Serialized Model:** `ml/saved_models/fraud_model.joblib`
 * **Model Metadata:** `ml/saved_models/model_metadata.json`
-* **Inference Loader:** `backend/app/ml/loader.py` (`TODO — Phase 8`).
-* **Prediction Engine:** `backend/app/ml/predictor.py` (`TODO — Phase 8`).
+* **Inference Loader:** `backend/app/ml/loader.py` (`ModelLoader`) provides singleton artifact caching with graceful failure handling and zero per-request disk I/O.
+* **Prediction Engine:** `backend/app/ml/predictor.py` (`TransactionPredictor`) coordinates online feature preprocessing, model inference, fraud probability extraction, and Phase 7 `RiskScoreEngine` evaluation.
 * **Risk Engine:** `backend/app/ml/risk_engine.py` (`RiskScoreEngine`) converts model fraud probability $P(\text{Class}=1) \in [0.0, 1.0]$ into a deterministic integer score $\text{score} = \text{round}(P \cdot 100) \in [0, 100]$ using mathematical round-half-up, and categorizes into standard modeled risk categories:
   * **Low:** $0 \le \text{score} \le 30$ — Lower modeled fraud risk
   * **Medium:** $31 \le \text{score} \le 70$ — Moderate modeled fraud risk
   * **High:** $71 \le \text{score} \le 100$ — Higher modeled fraud risk
-  * *Scope Clarification:* The Risk Score Engine defines modeled risk categories only; downstream transaction actions/policies are outside Phase 7 scope and will be determined during later backend and business-logic phases.
+  * *Scope Clarification:* The Risk Score Engine defines modeled risk categories only; downstream transaction actions/policies are outside Phase 7/8 scope and will be determined during later backend and business-logic phases.
 * **Output Structure:** `RiskAssessment(fraud_probability: float, risk_score: int, risk_label: str)`.

@@ -47,14 +47,22 @@
    * Downstream transaction policies and operational actions remain explicitly outside Phase 7 scope.
    * Enforces strict monotonicity and validates numerical bounds, rejecting NaNs, infinities, and invalid inputs.
    * Fully verified with comprehensive unit tests in `tests/test_risk_engine.py`.
+9. **FastAPI Backend Expansion (Phase 8):**
+   * Real-time risk scoring endpoint `POST /api/v1/transactions/evaluate` implemented in `backend/app/api/transactions.py`.
+   * Pydantic v2 request (`TransactionEvaluationRequest`) and response (`TransactionEvaluationResponse`) schemas in `backend/app/schemas/transaction.py`.
+   * Singleton model and preprocessor artifact manager `ModelLoader` in `backend/app/ml/loader.py`.
+   * Online inference feature transformer `OnlineFeaturePreprocessor` in `backend/app/ml/preprocessing.py`.
+   * End-to-end prediction coordinator `TransactionPredictor` in `backend/app/ml/predictor.py`.
+   * Safe exception handling without stack trace or filesystem path exposure.
+   * Comprehensive unit and integration test suite in `tests/test_transactions_api.py`.
 
 ---
 
 ## Pending Components
-1. **Machine Learning & Backend API (`backend/app/ml/`, `backend/app/api/`):**
-   * Phase 08: FastAPI prediction endpoints, input validation schemas, inference pipeline (`loader.py`, `predictor.py`, `preprocessing.py`).
-2. **Backend Persistence & Entities (`backend/app/`):**
-   * Phase 09: PostgreSQL integration, SQLAlchemy ORM models, Alembic migrations.
+1. **Backend Persistence & Database Entities (`backend/app/models/`, `backend/app/database/`):**
+   * Phase 09: PostgreSQL integration, SQLAlchemy ORM models (`TransactionRecord`), session repository, Alembic migrations.
+   * Transaction history (`GET /api/v1/transactions/`) and lookup endpoints backed by database.
+   * Analytics and summary metrics API endpoints (`GET /api/v1/analytics/summary`).
    * SQLAlchemy ORM models in `backend/app/models/`.
    * Alembic migration environment and initial schema migrations.
    * Transaction evaluation and analytics API endpoints.
