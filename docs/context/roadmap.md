@@ -16,5 +16,5 @@ The project is built incrementally across 14 structured phases.
 | **10** | **React Frontend Development** | ✅ Completed | Vite setup, Tailwind design system, transaction submission form. |
 | **11** | **Dashboard & Analytics** | ✅ Completed | Recharts integration, risk distribution charts, transaction history table. |
 | **12** | **Testing & Validation** | ✅ Completed | Pytest unit tests, integration tests for API & ML inference pipeline. |
-| **13** | **Dockerization** | ⏳ Pending | Dockerfile for backend/frontend, multi-service `docker-compose.yml`. |
+| **13** | **Dockerization** | ✅ Completed | Dockerfile for backend/frontend, multi-service `docker-compose.yml`. |
 | **14** | **Production Deployment** | ⏳ Pending | Production environment hardening, CI/CD pipeline, final documentation. |
