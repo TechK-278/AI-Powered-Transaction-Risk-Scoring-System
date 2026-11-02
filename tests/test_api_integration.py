@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-from app.core.config import AppSettings
+from app.core.config import AppSettings, settings
 from app.main import app
 from app.ml.loader import ModelArtifactNotFoundError
 from app.ml.risk_engine import RiskAssessment
@@ -101,12 +101,13 @@ class TestCorsConfiguration(unittest.TestCase):
         self.client = TestClient(app)
 
     def test_preflight_from_configured_origin_is_allowed(self) -> None:
+        configured_origin = settings.cors_origin_list[0]
         response = self.client.options(
             EVALUATE_URL,
-            headers={"Origin": "http://localhost:5173", "Access-Control-Request-Method": "POST"},
+            headers={"Origin": configured_origin, "Access-Control-Request-Method": "POST"},
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.headers.get("access-control-allow-origin"), "http://localhost:5173")
+        self.assertEqual(response.headers.get("access-control-allow-origin"), configured_origin)
 
     def test_unknown_origin_receives_no_cors_header(self) -> None:
         response = self.client.get("/api/v1/health/", headers={"Origin": "https://untrusted.example"})
