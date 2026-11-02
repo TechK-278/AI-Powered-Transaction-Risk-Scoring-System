@@ -1,7 +1,7 @@
 # Current Repository State
 
 ## Snapshot Date
-* **Status:** Phase 9 (PostgreSQL Integration & Alembic) Completed
+* **Status:** All 14 phases completed (2026-11-02)
 
 ---
 
@@ -64,14 +64,28 @@
 
 ---
 
-## Pending Components
-1. **Frontend Application (`frontend/`):**
-   * Phase 10: Vite + React initialization and `package.json` setup.
-   * Tailwind CSS design system setup.
-   * Real-time transaction submission and evaluation interface.
-2. **Dashboard & Analytics (`backend/app/api/`, `frontend/`):**
-   * Phase 11: Analytics and summary metrics API endpoints (`GET /api/v1/analytics/summary`).
-   * Recharts visual dashboard, risk distribution charts, and transaction history table.
-3. **DevOps & Deployment (`docker/`):**
-   * Phase 13: `Dockerfile` for backend and frontend, multi-service `docker-compose.yml`.
-   * Phase 14: Production environment hardening, CI/CD pipeline, and deployment guide.
+10. **React Frontend (Phase 10):**
+   * Vite + React 19 + Tailwind CSS v4 analyst console in `frontend/` with a neutral enterprise theme defined as tokens in `src/index.css`.
+   * Layered structure: `services/` (Axios client, endpoint functions, error mapping), `domain/` (risk tiers, payload building, formatters), `hooks/`, `components/`, `pages/`.
+   * Evaluate workspace: `TransactionInputForm` (validation, PCA grid, dataset CSV row import) and `RiskScorePanel` (score, tier, probability, 0–100 tier scale).
+   * Configurable backend CORS via `CORS_ORIGINS`; Vite dev server proxies `/api` to the backend.
+11. **Dashboard & Analytics (Phase 11):**
+   * `GET /api/v1/analytics/summary` (`api/analytics.py`, `repositories/analytics.py`, `services/analytics_service.py`, `schemas/analytics.py`).
+   * Monitor workspace: `TransactionSummary`, `RiskDistributionChart`, `DailyEvaluationVolumeChart` (Recharts, CVD-validated tier colors), `PredictionHistoryTable` with filters and pagination, `RecordLookupForm`, `TransactionDetailPanel`. Lazy-loaded to keep the evaluate bundle small.
+12. **Testing & Validation (Phase 12):**
+   * `tests/conftest.py` routes every test to an isolated in-memory SQLite database; model-dependent tests skip when artifacts are absent.
+   * API integration tests with a stubbed predictor (`tests/test_api_integration.py`), analytics tests, and an opt-in Alembic round trip on PostgreSQL guarded to `*test*` databases.
+   * Frontend domain tests with the built-in Node test runner (`npm test`).
+13. **Dockerization (Phase 13):**
+   * `docker/backend.Dockerfile` (non-root, healthcheck, migrations on start), `docker/frontend.Dockerfile` (nginx with `/api` proxy and security headers), `docker-compose.yml` with health-gated startup and read-only artifact mount.
+14. **CI & Deployment (Phase 14):**
+   * `.github/workflows/ci.yml`: backend tests against a PostgreSQL service, frontend tests and build, image builds.
+   * `docs/DEPLOYMENT.md`: configuration, operations, backups, and production hardening checklist. README rewritten with accurate setup instructions.
+
+---
+
+## Known Limitations / Next Steps
+* The API has no authentication or rate limiting; see the hardening checklist in `docs/DEPLOYMENT.md`.
+* Transaction endpoints in `api/transactions.py` are `async def` but call blocking DB and model code; converting them to plain `def` would let FastAPI run them in its threadpool under load.
+* Trained artifacts are not versioned in a registry; CI skips model-dependent tests.
+* The backend image includes the NVIDIA NCCL library pulled in by `xgboost`; `xgboost-cpu` would shrink it.

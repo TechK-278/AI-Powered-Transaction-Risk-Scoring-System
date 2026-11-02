@@ -33,7 +33,7 @@ The project follows industry-standard software engineering practices and demonst
 - Dockerization
 - Deployment
 
-This repository is being developed incrementally to simulate a real-world software development workflow.
+The repository was developed incrementally, phase by phase, to simulate a real-world software development workflow.
 
 ---
 
@@ -90,7 +90,7 @@ This repository is being developed incrementally to simulate a real-world softwa
 
 - Docker
 - Docker Compose
-- GitHub Actions (planned)
+- GitHub Actions CI
 - Environment Configuration
 
 ---
@@ -302,278 +302,171 @@ Risk Categories
 # 📂 Project Structure
 
 ```text
-transaction-risk-scoring-system/
-│
-├── backend/                  # FastAPI backend
+.
+├── backend/                     # FastAPI service
+│   ├── alembic/                 # Database migrations
 │   ├── app/
-│   │   ├── api/              # API routes
-│   │   ├── core/             # Configurations
-│   │   ├── database/         # Database connection
-│   │   ├── models/           # SQLAlchemy models
-│   │   ├── schemas/          # Pydantic schemas
-│   │   ├── services/         # Business logic
-│   │   ├── ml/               # ML model inference
-│   │   ├── utils/            # Helper functions
+│   │   ├── api/                 # Routers: health, transactions, analytics
+│   │   ├── core/                # Settings (pydantic-settings), logging
+│   │   ├── database/            # Engine, session dependency, declarative base
+│   │   ├── ml/                  # Model loader, online preprocessing, predictor, risk engine
+│   │   ├── models/              # SQLAlchemy ORM models
+│   │   ├── repositories/        # Data access (transactions, analytics aggregates)
+│   │   ├── schemas/             # Pydantic request/response models
+│   │   ├── services/            # Analytics summary assembly
 │   │   └── main.py
-│   └── requirements.txt
-│
-├── frontend/                 # React application
-│   ├── public/
+│   ├── requirements.txt         # Runtime dependencies
+│   └── requirements-dev.txt     # + pytest, httpx
+├── frontend/                    # React + Vite + Tailwind analyst console
 │   ├── src/
-│   └── package.json
-│
-├── ml/                       # Machine Learning
-│   ├── data/
-│   ├── notebooks/
-│   ├── preprocessing/
-│   ├── training/
-│   ├── evaluation/
-│   └── saved_models/
-│
-├── tests/                    # Unit & Integration Tests
-│
-├── docker/                   # Docker configuration
-│
-├── docs/                     # Documentation
-│   └── DEVELOPMENT_GUIDE.md
-│
-├── .github/
-│
-├── docker-compose.yml
-├── .env.example
-├── .gitignore
-├── LICENSE
-└── README.md
+│   │   ├── components/          # evaluation/, monitoring/, layout/, shared/
+│   │   ├── domain/              # Risk tiers, payload building, formatters
+│   │   ├── hooks/               # Data-fetching and state hooks
+│   │   ├── pages/               # EvaluationPage, MonitoringPage
+│   │   └── services/            # Axios API client and endpoint functions
+│   └── tests/                   # node:test unit tests
+├── ml/
+│   ├── notebooks/               # EDA, preprocessing, training notebooks
+│   ├── src/                     # Preprocessing + training pipelines
+│   └── saved_models/            # Trained artifacts (gitignored)
+├── tests/                       # Pytest suite
+├── docker/                      # Dockerfiles, nginx template, entrypoint
+├── docs/                        # Context docs, EDA report, deployment guide
+├── .github/workflows/ci.yml     # CI: tests, frontend build, image builds
+└── docker-compose.yml
 ```
 
 ---
 
-# 🚀 Installation
+# 🚀 Getting Started
 
-## Clone the Repository
+## Prerequisites
+
+- Python 3.13, Node.js 24, PostgreSQL 17 (or Docker)
+- The [ULB Credit Card Fraud dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) at `ml/data/raw/creditcard.csv` (only needed to retrain)
+
+## 1. Produce the model artifacts
+
+The trained artifacts are not committed. From the repository root:
 
 ```bash
-git clone https://github.com/<your-username>/transaction-risk-scoring-system.git
-
-cd transaction-risk-scoring-system
+python -m ml.src.preprocessing.pipeline   # writes ml/saved_models/preprocessor.joblib
+python -m ml.src.training.train           # writes fraud_model.joblib and model_metadata.json
 ```
 
----
-
-## Backend Setup
+## 2. Run with Docker (recommended)
 
 ```bash
+cp .env.example .env        # set POSTGRES_PASSWORD
+docker compose up --build
+```
+
+Open **http://localhost:8080**. Compose starts PostgreSQL, applies Alembic migrations, starts the API (2 Uvicorn workers) and serves the frontend through nginx, which proxies `/api` to the backend. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for production notes.
+
+## 3. Run locally for development
+
+```bash
+# Backend
 cd backend
+python -m venv .venv
+.venv\Scripts\activate          # Windows  (source .venv/bin/activate on Linux/macOS)
+pip install -r requirements-dev.txt
+cp .env.example .env            # set DATABASE_URL
+alembic upgrade head
+uvicorn app.main:app --reload   # http://localhost:8000/docs
 
-python -m venv venv
-```
-
-Activate virtual environment
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Frontend Setup
-
-```bash
+# Frontend (second terminal)
 cd frontend
-
 npm install
+npm run dev                     # http://localhost:5173 (proxies /api to :8000)
 ```
 
 ---
 
-## Database Setup
+# 📡 API
 
-Start PostgreSQL and configure the environment variables.
+| Method | Route | Purpose |
+|---|---|---|
+| `GET` | `/api/v1/health/` | Liveness check |
+| `POST` | `/api/v1/transactions/evaluate` | Score a transaction and persist the assessment |
+| `GET` | `/api/v1/transactions/` | Paginated history; filter by `risk_label`, `min_risk_score`, `max_risk_score` |
+| `GET` | `/api/v1/transactions/{id}` | One persisted assessment |
+| `GET` | `/api/v1/analytics/summary` | Totals, tier counts, score distribution, daily volume (`window_days` 1–90) |
 
-Example:
-
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/transaction_db
-```
-
----
-
-# ▶️ Running the Application
-
-## Start Backend
+### Example
 
 ```bash
-cd backend
-
-uvicorn app.main:app --reload
+curl -X POST http://localhost:8000/api/v1/transactions/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{"amount": 149.50, "time": 3600, "v4": 4.2, "v10": -5.1, "v12": -7.0, "v14": -8.3, "v17": -6.4}'
 ```
-
-Backend
-
-```
-http://localhost:8000
-```
-
-Swagger
-
-```
-http://localhost:8000/docs
-```
-
-ReDoc
-
-```
-http://localhost:8000/redoc
-```
-
----
-
-## Start Frontend
-
-```bash
-cd frontend
-
-npm run dev
-```
-
-Frontend
-
-```
-http://localhost:5173
-```
-
----
-
-# 📡 API Example
-
-## Request
 
 ```json
 {
-    "amount": 5400,
-    "merchant": "Amazon",
-    "country": "India",
-    "hour": 22,
-    "device": "Mobile"
+  "id": "7ed71051-6d81-46fe-ad7b-9246acbe7b8f",
+  "fraud_probability": 0.8938,
+  "risk_score": 89,
+  "risk_label": "High",
+  "created_at": "2026-11-02T06:41:43.794575Z"
 }
 ```
 
----
-
-## Response
-
-```json
-{
-    "risk_score": 87,
-    "fraud_probability": 0.87,
-    "label": "High Risk"
-}
-```
+`v1`–`v28` are the dataset's anonymised PCA components and default to `0`. Full schemas: [`docs/context/api-spec.md`](docs/context/api-spec.md) or Swagger at `/docs`.
 
 ---
 
-# 📈 Dashboard
+# 📈 Analyst Console
 
-The React dashboard will provide:
+**Evaluate** — enter amount, time and PCA components (or paste a dataset CSV row) and get the risk score, tier and fraud probability with a position on the 0–100 tier scale.
 
-- Transaction Prediction
-- Risk Score Visualization
-- Fraud Probability
-- Transaction History
-- High-Risk Alerts
-- Analytics Charts
-- Summary Cards
-- Risk Distribution
-- Recent Transactions
+**Monitor** — summary figures (evaluations, mean score, mean probability, tier mix), a risk score distribution histogram, daily evaluation volume by tier (7/14/30 days), a filterable and paginated evaluation history table, and record lookup by ID.
 
 ---
 
 # 🧪 Testing
 
-The project will include:
-
-- Unit Tests
-- API Tests
-- Model Validation Tests
-- Integration Tests
-
-Run all tests:
-
 ```bash
-pytest
+# Backend (from the repository root)
+python -m pytest
+
+# Opt-in PostgreSQL migration round trip (database name must contain "test")
+RUN_POSTGRES_TESTS=1 DATABASE_URL=postgresql+psycopg://user:pass@localhost:5432/transaction_risk_test python -m pytest tests/test_postgres_migrations.py
+
+# Frontend
+cd frontend && npm test && npm run build
 ```
+
+API tests run against an in-memory SQLite database, so the suite never touches your development database. Tests that need the trained model are skipped automatically when `ml/saved_models` is empty, which is how CI runs.
 
 ---
 
-# 🐳 Docker Support
+# 🔁 Continuous Integration
 
-The application will be fully containerized.
+`.github/workflows/ci.yml` runs on every push to `main` and every pull request:
 
-Run the entire application using Docker Compose.
-
-```bash
-docker compose up --build
-```
-
-This starts:
-
-- FastAPI Backend
-- React Frontend
-- PostgreSQL Database
-
----
-
-# ☁️ Deployment
-
-The project is designed for production deployment.
-
-Deployment targets include:
-
-- Backend
-- Frontend
-- PostgreSQL
-- Docker Containers
-
-Deployment configuration will be added during the final phase of the project.
+1. **Backend** — pytest against a PostgreSQL 17 service container, including the Alembic migration round trip
+2. **Frontend** — `npm test` and a production build
+3. **Docker** — builds the backend and frontend images
 
 ---
 
 # 🗺️ Development Roadmap
 
-The project is being built incrementally following industry best practices.
-
 | Phase | Status |
 |--------|--------|
 | ✅ Planning & Architecture | Completed |
-| ⬜ Folder Structure | Pending |
-| ⬜ Dataset Selection | Pending |
-| ⬜ Data Preprocessing | Pending |
-| ⬜ Exploratory Data Analysis | Pending |
-| ⬜ Feature Engineering | Pending |
-| ⬜ Model Training | Pending |
-| ⬜ Risk Score Engine | Pending |
-| ⬜ FastAPI Backend | Pending |
-| ⬜ PostgreSQL Integration | Pending |
-| ⬜ React Frontend | Pending |
-| ⬜ Dashboard & Analytics | Pending |
-| ⬜ Testing | Pending |
-| ⬜ Dockerization | Pending |
-| ⬜ Deployment | Pending |
-| ⬜ Final Documentation | Pending |
+| ✅ Folder Structure | Completed |
+| ✅ Dataset Selection & EDA | Completed |
+| ✅ Data Preprocessing & Feature Engineering | Completed |
+| ✅ Model Training & Evaluation | Completed |
+| ✅ Risk Score Engine | Completed |
+| ✅ FastAPI Backend | Completed |
+| ✅ PostgreSQL Integration | Completed |
+| ✅ React Frontend | Completed |
+| ✅ Dashboard & Analytics | Completed |
+| ✅ Testing | Completed |
+| ✅ Dockerization | Completed |
+| ✅ CI & Deployment Guide | Completed |
 
 ---
 
