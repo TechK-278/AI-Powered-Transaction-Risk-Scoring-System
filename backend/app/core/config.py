@@ -26,12 +26,21 @@ class AppSettings(BaseSettings):
     log_level: str = "INFO"
     database_url: str = ""
 
+    # Comma-separated list of browser origins allowed to call the API.
+    cors_origins: str = "http://localhost:5173"
+
     model_config = SettingsConfigDict(
         env_file=(_env_path, ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
         frozen=True,
     )
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        """Return configured CORS origins as a list, ignoring blank entries."""
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
 
 # Singleton instance of the settings
 settings = AppSettings()
