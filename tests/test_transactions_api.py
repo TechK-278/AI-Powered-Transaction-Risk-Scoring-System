@@ -28,6 +28,7 @@ from app.schemas.transaction import (
     TransactionEvaluationRequest,
     TransactionEvaluationResponse,
 )
+from model_artifacts import requires_model_artifacts
 
 
 class TestModelLoader(unittest.TestCase):
@@ -37,6 +38,7 @@ class TestModelLoader(unittest.TestCase):
         """Reset loader singleton state after each test."""
         ModelLoader.reset()
 
+    @requires_model_artifacts
     def test_load_existing_artifacts(self) -> None:
         """Test loading local model and preprocessor artifacts."""
         model = ModelLoader.get_model()
@@ -46,6 +48,7 @@ class TestModelLoader(unittest.TestCase):
         self.assertIsNotNone(preprocessor)
         self.assertTrue(ModelLoader.is_loaded())
 
+    @requires_model_artifacts
     def test_singleton_caching_does_not_reload(self) -> None:
         """Test that repeated calls return the identical cached instance without re-reading disk."""
         model1 = ModelLoader.get_model()
@@ -78,6 +81,7 @@ class TestTransactionPredictor(unittest.TestCase):
         """Initialize predictor."""
         self.predictor = TransactionPredictor()
 
+    @requires_model_artifacts
     def test_predict_valid_request_model(self) -> None:
         """Test end-to-end prediction from TransactionEvaluationRequest."""
         request = TransactionEvaluationRequest(
@@ -102,6 +106,7 @@ class TestTransactionPredictor(unittest.TestCase):
 
         self.assertIn(assessment.risk_label, [RiskLabel.LOW.value, RiskLabel.MEDIUM.value, RiskLabel.HIGH.value])
 
+    @requires_model_artifacts
     def test_predict_with_mock_model_probability(self) -> None:
         """Test prediction mapping using a mock model with known probability output."""
         mock_model = MagicMock()
@@ -123,6 +128,7 @@ class TestTransactionsAPI(unittest.TestCase):
         """Initialize FastAPI TestClient."""
         self.client = TestClient(app)
 
+    @requires_model_artifacts
     def test_evaluate_transaction_success_and_persistence(self) -> None:
         """Test POST /api/v1/transactions/evaluate persists transaction and returns 200 with ID."""
         payload = {
@@ -242,6 +248,7 @@ class TestTransactionsAPI(unittest.TestCase):
         data = response.json()
         self.assertIn("not found", data["detail"])
 
+    @requires_model_artifacts
     def test_evaluate_transaction_db_failure_rollback_500(self) -> None:
         """Test that database failure during persistence triggers rollback and returns 500."""
         with patch("app.api.transactions.TransactionRepository.create") as mock_create:
