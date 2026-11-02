@@ -4,7 +4,7 @@ export default function RequestErrorNotice({ message }) {
   }
 
   return (
-    <div role="alert" className="rounded border border-risk-high/40 bg-risk-high-soft px-3 py-2 text-risk-high">
+    <div role="alert" className="rounded border border-risk-high/40 bg-risk-high-soft px-3 py-2 text-risk-high-ink">
       {message}
     </div>
   );

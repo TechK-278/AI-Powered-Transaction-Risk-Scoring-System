@@ -15,11 +15,15 @@
   --color-accent-strong: #163a2c;
   --color-accent-soft: #e6efea;
 
-  --color-risk-low: #2e7351;
-  --color-risk-low-soft: #e5f1ea;
-  --color-risk-medium: #9a5b06;
-  --color-risk-medium-soft: #fbf0dc;
+  /* Mark colors (validated for CVD separation); use the -ink variants for text. */
+  --color-risk-low: #1f8a55;
+  --color-risk-medium: #c28a0c;
   --color-risk-high: #b42318;
+  --color-risk-low-ink: #1f6142;
+  --color-risk-medium-ink: #8a5300;
+  --color-risk-high-ink: #a41f15;
+  --color-risk-low-soft: #e5f1ea;
+  --color-risk-medium-soft: #fbf0dc;
   --color-risk-high-soft: #fbe7e5;
 }
 
@@ -60,7 +64,7 @@
   }
 
   .button-primary {
-    @apply inline-flex items-center justify-center rounded bg-accent px-4 py-2 text-sm font-medium text-white;
+    @apply inline-flex items-center justify-center rounded bg-accent px-4 py-1.5 text-sm font-medium text-white;
     @apply hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60;
   }
 

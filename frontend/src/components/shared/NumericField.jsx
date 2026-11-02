@@ -24,7 +24,7 @@ export default function NumericField({ name, label, value, error, onValueChange,
         onChange={(event) => onValueChange(name, event.target.value)}
       />
       {error ? (
-        <p id={messageId} className="mt-1 text-xs text-risk-high">
+        <p id={messageId} className="mt-1 text-xs text-risk-high-ink">
           {error}
         </p>
       ) : (

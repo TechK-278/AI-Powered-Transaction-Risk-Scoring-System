@@ -1,9 +1,9 @@
 import { findRiskTier } from "../../domain/riskTiers.js";
 
 const TONE_CLASSES = {
-  low: "bg-risk-low-soft text-risk-low border-risk-low/30",
-  medium: "bg-risk-medium-soft text-risk-medium border-risk-medium/30",
-  high: "bg-risk-high-soft text-risk-high border-risk-high/30",
+  low: "bg-risk-low-soft text-risk-low-ink border-risk-low/30",
+  medium: "bg-risk-medium-soft text-risk-medium-ink border-risk-medium/30",
+  high: "bg-risk-high-soft text-risk-high-ink border-risk-high/30",
 };
 
 export default function RiskLabelBadge({ riskLabel }) {

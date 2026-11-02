@@ -7,15 +7,18 @@ export default function EvaluationPage() {
   const { evaluationState, submitEvaluation } = useTransactionEvaluation();
 
   return (
-    <div className="grid items-start gap-4 lg:grid-cols-3">
-      <div className="lg:col-span-2">
-        <TransactionInputForm
-          onSubmitEvaluation={submitEvaluation}
-          isSubmitting={evaluationState.status === "submitting"}
-        />
-      </div>
-      <div className="lg:sticky lg:top-4">
-        <RiskScorePanel evaluationState={evaluationState} />
+    <div className="space-y-4">
+      <h1 className="text-lg font-semibold">Evaluate a transaction</h1>
+      <div className="grid items-start gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <TransactionInputForm
+            onSubmitEvaluation={submitEvaluation}
+            isSubmitting={evaluationState.status === "submitting"}
+          />
+        </div>
+        <div className="lg:sticky lg:top-4">
+          <RiskScorePanel evaluationState={evaluationState} />
+        </div>
       </div>
     </div>
   );

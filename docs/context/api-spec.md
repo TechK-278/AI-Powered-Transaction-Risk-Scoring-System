@@ -138,7 +138,39 @@
 
 ---
 
-### 5. Analytics & Aggregates (Planned)
+### 5. Analytics Summary
 * **Route:** `GET /api/v1/analytics/summary`
-* **Status:** `TODO — Not yet defined`
-* **Description:** Summary metrics for dashboard KPI cards (total volume, flagged fraud rate, average risk score).
+* **Status:** Implemented (Phase 11)
+* **Tags:** `["Analytics"]`
+* **Description:** Aggregates all persisted evaluations into totals, averages, risk tier counts, a ten-range score distribution, and per-day volume by tier for the monitoring dashboard. Aggregation runs in the database (`GROUP BY` score and label); daily volume is bucketed by UTC day in the service layer so results do not depend on the database session time zone.
+
+#### Query Parameters
+* `window_days` (int, optional): Days of daily volume to return, including today (UTC). Default `14`, range `1–90`.
+
+#### Response Payload (`AnalyticsSummaryResponse` - 200 OK)
+```json
+{
+  "total_evaluations": 68,
+  "average_risk_score": 19.34,
+  "average_fraud_probability": 0.1938,
+  "risk_label_counts": [
+    {"risk_label": "Low", "count": 55},
+    {"risk_label": "Medium", "count": 0},
+    {"risk_label": "High", "count": 13}
+  ],
+  "score_distribution": [
+    {"score_from": 0, "score_to": 9, "count": 53},
+    {"score_from": 90, "score_to": 100, "count": 12}
+  ],
+  "daily_volume": [
+    {"day": "2026-11-02", "low": 51, "medium": 0, "high": 13}
+  ],
+  "window_days": 14
+}
+```
+`score_distribution` always contains ten ranges (0–9 … 90–100; abbreviated above). `daily_volume` contains one row per day in the window, oldest first, including days with no evaluations. Averages are `null` when no evaluations exist.
+
+#### Status Codes
+* **200 OK:** Summary computed.
+* **422 Unprocessable Entity:** `window_days` outside 1–90.
+* **500 Internal Server Error:** Database query failure.

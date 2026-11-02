@@ -10,6 +10,7 @@ export const RISK_TIERS = [
     maxScore: 30,
     summary: "Lower modeled fraud risk",
     tone: "low",
+    markColor: "var(--color-risk-low)",
   },
   {
     label: "Medium",
@@ -17,6 +18,7 @@ export const RISK_TIERS = [
     maxScore: 70,
     summary: "Moderate modeled fraud risk",
     tone: "medium",
+    markColor: "var(--color-risk-medium)",
   },
   {
     label: "High",
@@ -24,6 +26,7 @@ export const RISK_TIERS = [
     maxScore: 100,
     summary: "Higher modeled fraud risk",
     tone: "high",
+    markColor: "var(--color-risk-high)",
   },
 ];
 

@@ -44,7 +44,7 @@ export default function DatasetRowImport({ onRowImported }) {
           Fill fields from row
         </button>
         {parseError && (
-          <p id="dataset-row-error" className="text-xs text-risk-high">
+          <p id="dataset-row-error" className="text-xs text-risk-high-ink">
             {parseError}
           </p>
         )}

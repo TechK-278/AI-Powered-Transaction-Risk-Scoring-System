@@ -8,6 +8,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.analytics import router as analytics_router
 from app.api.health import router as health_router
 from app.api.transactions import router as transactions_router
 from app.core.config import settings
@@ -64,6 +65,7 @@ app.add_middleware(
 # Register API routers
 app.include_router(health_router, prefix=settings.api_prefix)
 app.include_router(transactions_router, prefix=settings.api_prefix)
+app.include_router(analytics_router, prefix=settings.api_prefix)
 
 __all__ = ["app"]
 
