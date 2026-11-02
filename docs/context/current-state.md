@@ -1,7 +1,7 @@
 # Current Repository State
 
 ## Snapshot Date
-* **Status:** Initial Development — Scaffolding & Context Layer Established
+* **Status:** Phase 9 (PostgreSQL Integration & Alembic) Completed
 
 ---
 
@@ -10,13 +10,19 @@
    * Backend, ML, Frontend, Docker, Docs, and Tests hierarchies organized.
 2. **FastAPI Foundation:**
    * Application entry point in `backend/app/main.py`.
-   * Centralized configuration in `backend/app/core/config.py` using Pydantic Settings.
+   * Centralized configuration in `backend/app/core/config.py` using Pydantic Settings with robust `.env` resolution.
    * Centralized logging system in `backend/app/core/logging.py`.
    * Health check endpoint `GET /api/v1/health/` and response schema `HealthResponse` in `backend/app/schemas/health.py`.
-3. **Database Foundation:**
+3. **Database Foundation & PostgreSQL Persistence (Phase 9):**
    * SQLAlchemy 2.0 `Base` class declared in `backend/app/database/base.py`.
-   * Database engine instantiation with `pool_pre_ping=True` and connection check in `backend/app/database/connection.py`.
+   * Database engine instantiation with `pool_pre_ping=True` in `backend/app/database/connection.py`.
    * Session generator dependency `get_db` configured in `backend/app/database/session.py`.
+   * SQLAlchemy 2.0 `Transaction` ORM model in `backend/app/models/transaction.py` with full constraints and indexes.
+   * Clean `TransactionRepository` data access layer in `backend/app/repositories/transaction.py`.
+   * Configured Alembic migrations in `backend/alembic.ini` and `backend/alembic/env.py` with reversible `0001_create_transactions` initial migration.
+   * Transaction evaluation persistence in `POST /api/v1/transactions/evaluate`.
+   * Historical transaction listing with pagination and filters in `GET /api/v1/transactions/`.
+   * Transaction detail lookup in `GET /api/v1/transactions/{transaction_id}`.
 4. **Context Layer:**
    * Structured documentation in `docs/context/` covering architecture, requirements, API specs, database schemas, ML pipeline, decisions, roadmap, and state.
    * Local read-only MCP server designed for secure stdio context querying.
@@ -59,19 +65,13 @@
 ---
 
 ## Pending Components
-1. **Backend Persistence & Database Entities (`backend/app/models/`, `backend/app/database/`):**
-   * Phase 09: PostgreSQL integration, SQLAlchemy ORM models (`TransactionRecord`), session repository, Alembic migrations.
-   * Transaction history (`GET /api/v1/transactions/`) and lookup endpoints backed by database.
-   * Analytics and summary metrics API endpoints (`GET /api/v1/analytics/summary`).
-   * SQLAlchemy ORM models in `backend/app/models/`.
-   * Alembic migration environment and initial schema migrations.
-   * Transaction evaluation and analytics API endpoints.
-   * Custom exception handlers and input validators.
-3. **Frontend Application (`frontend/`):**
-   * Vite + React initialization and `package.json` setup.
+1. **Frontend Application (`frontend/`):**
+   * Phase 10: Vite + React initialization and `package.json` setup.
    * Tailwind CSS design system setup.
-   * Interactive dashboard, charts, and transaction risk scoring UI.
-4. **DevOps & Testing (`docker/`, `tests/`):**
-   * Pytest test suite for backend and ML components.
-   * `Dockerfile` for backend and frontend.
-   * Complete `docker-compose.yml` configuration.
+   * Real-time transaction submission and evaluation interface.
+2. **Dashboard & Analytics (`backend/app/api/`, `frontend/`):**
+   * Phase 11: Analytics and summary metrics API endpoints (`GET /api/v1/analytics/summary`).
+   * Recharts visual dashboard, risk distribution charts, and transaction history table.
+3. **DevOps & Deployment (`docker/`):**
+   * Phase 13: `Dockerfile` for backend and frontend, multi-service `docker-compose.yml`.
+   * Phase 14: Production environment hardening, CI/CD pipeline, and deployment guide.

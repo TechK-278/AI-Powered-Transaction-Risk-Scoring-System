@@ -1,29 +1,30 @@
 """
-Unit and integration tests for Phase 08 FastAPI Backend Expansion.
+Unit and integration tests for FastAPI Transaction Evaluation & History API (Phases 08 & 09).
 
-Validates ModelLoader singleton caching, TransactionPredictor service,
-POST /api/v1/transactions/evaluate endpoint, request validation,
-and health endpoint regression. Compatible with standard library unittest and pytest.
+Validates ModelLoader, TransactionPredictor, transaction evaluation endpoint,
+PostgreSQL persistence, history listing with pagination/filters, detail lookup,
+and error/rollback behavior.
 """
 
 import tempfile
 import unittest
+import uuid
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import numpy as np
 from fastapi.testclient import TestClient
+from sqlalchemy.exc import SQLAlchemyError
 
-from backend.app.main import app
-from backend.app.ml.loader import (
+from app.main import app
+from app.ml.loader import (
     ModelArtifactNotFoundError,
     ModelLoadError,
     ModelLoader,
 )
-from backend.app.ml.predictor import TransactionPredictor
-from backend.app.ml.preprocessing import OnlineFeaturePreprocessor
-from backend.app.ml.risk_engine import RiskLabel
-from backend.app.schemas.transaction import (
+from app.ml.predictor import TransactionPredictor
+from app.ml.risk_engine import RiskLabel
+from app.schemas.transaction import (
     TransactionEvaluationRequest,
     TransactionEvaluationResponse,
 )
@@ -116,14 +117,14 @@ class TestTransactionPredictor(unittest.TestCase):
 
 
 class TestTransactionsAPI(unittest.TestCase):
-    """Test suite for FastAPI transactions evaluation router."""
+    """Test suite for FastAPI transactions evaluation and history router."""
 
     def setUp(self) -> None:
         """Initialize FastAPI TestClient."""
         self.client = TestClient(app)
 
-    def test_evaluate_transaction_success_200(self) -> None:
-        """Test POST /api/v1/transactions/evaluate with valid payload returns 200 and valid schema."""
+    def test_evaluate_transaction_success_and_persistence(self) -> None:
+        """Test POST /api/v1/transactions/evaluate persists transaction and returns 200 with ID."""
         payload = {
             "amount": 99.50,
             "time": 3600.0,
@@ -136,15 +137,27 @@ class TestTransactionsAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
         data = response.json()
+        self.assertIn("id", data)
+        self.assertIsNotNone(data["id"])
         self.assertIn("fraud_probability", data)
         self.assertIn("risk_score", data)
         self.assertIn("risk_label", data)
+        self.assertIn("created_at", data)
 
         self.assertIsInstance(data["fraud_probability"], float)
         self.assertTrue(0.0 <= data["fraud_probability"] <= 1.0)
         self.assertIsInstance(data["risk_score"], int)
         self.assertTrue(0 <= data["risk_score"] <= 100)
         self.assertIn(data["risk_label"], ["Low", "Medium", "High"])
+
+        # Verify transaction can be fetched by the returned ID
+        tx_id = data["id"]
+        detail_res = self.client.get(f"/api/v1/transactions/{tx_id}")
+        self.assertEqual(detail_res.status_code, 200)
+        detail_data = detail_res.json()
+        self.assertEqual(detail_data["id"], tx_id)
+        self.assertEqual(detail_data["amount"], 99.50)
+        self.assertEqual(detail_data["risk_score"], data["risk_score"])
 
     def test_evaluate_transaction_validation_negative_amount_422(self) -> None:
         """Test that negative amount payload is rejected with 422 Unprocessable Entity."""
@@ -183,6 +196,61 @@ class TestTransactionsAPI(unittest.TestCase):
         }
         response = self.client.post("/api/v1/transactions/evaluate", json=payload)
         self.assertEqual(response.status_code, 422)
+
+    def test_list_transactions_pagination(self) -> None:
+        """Test GET /api/v1/transactions/ returns paginated response."""
+        # Create at least one evaluation
+        self.client.post(
+            "/api/v1/transactions/evaluate",
+            json={"amount": 42.0, "time": 10.0},
+        )
+
+        response = self.client.get("/api/v1/transactions/?page=1&page_size=5")
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertIn("items", data)
+        self.assertIn("total", data)
+        self.assertIn("page", data)
+        self.assertIn("page_size", data)
+        self.assertIn("total_pages", data)
+        self.assertEqual(data["page"], 1)
+        self.assertEqual(data["page_size"], 5)
+        self.assertIsInstance(data["items"], list)
+
+    def test_list_transactions_filtering(self) -> None:
+        """Test filtering by risk label and score range."""
+        response = self.client.get("/api/v1/transactions/?risk_label=Low&min_risk_score=0&max_risk_score=30")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        for item in data["items"]:
+            self.assertEqual(item["risk_label"], "Low")
+            self.assertTrue(0 <= item["risk_score"] <= 30)
+
+    def test_list_transactions_invalid_filter_range_400(self) -> None:
+        """Test that min_risk_score > max_risk_score returns 400 Bad Request."""
+        response = self.client.get("/api/v1/transactions/?min_risk_score=80&max_risk_score=20")
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertIn("min_risk_score cannot be greater than max_risk_score", data["detail"])
+
+    def test_get_transaction_by_id_404(self) -> None:
+        """Test GET /api/v1/transactions/{id} with non-existent ID returns 404."""
+        non_existent_id = str(uuid.uuid4())
+        response = self.client.get(f"/api/v1/transactions/{non_existent_id}")
+        self.assertEqual(response.status_code, 404)
+        data = response.json()
+        self.assertIn("not found", data["detail"])
+
+    def test_evaluate_transaction_db_failure_rollback_500(self) -> None:
+        """Test that database failure during persistence triggers rollback and returns 500."""
+        with patch("app.api.transactions.TransactionRepository.create") as mock_create:
+            mock_create.side_effect = SQLAlchemyError("Simulated DB connection error")
+            payload = {"amount": 100.0, "time": 50.0}
+            response = self.client.post("/api/v1/transactions/evaluate", json=payload)
+            self.assertEqual(response.status_code, 500)
+            data = response.json()
+            self.assertIn("Database persistence error", data["detail"])
 
     def test_health_check_regression_200(self) -> None:
         """Test that GET /api/v1/health/ continues to return 200 healthy status."""

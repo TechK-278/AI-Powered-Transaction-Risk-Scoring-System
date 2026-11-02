@@ -5,7 +5,10 @@ This module provides a singleton Settings instance that is used
 throughout the application.
 """
 
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_env_path = Path(__file__).resolve().parent.parent.parent / ".env"
 
 
 class AppSettings(BaseSettings):
@@ -24,7 +27,7 @@ class AppSettings(BaseSettings):
     database_url: str = ""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(_env_path, ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
         frozen=True,

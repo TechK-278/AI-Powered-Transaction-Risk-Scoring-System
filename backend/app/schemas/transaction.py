@@ -1,8 +1,9 @@
 """
-Pydantic schemas for transaction risk evaluation request and response.
+Pydantic schemas for transaction risk evaluation request, response, and history inspection.
 """
 
-from typing import Any
+from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -89,6 +90,11 @@ class TransactionEvaluationResponse(BaseModel):
     Represents modeled statistical fraud risk without imposing operational decisions.
     """
 
+    id: Optional[str] = Field(
+        default=None,
+        description="Unique identifier for the persisted transaction record.",
+        examples=["a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"],
+    )
     fraud_probability: float = Field(
         ...,
         ge=0.0,
@@ -108,5 +114,95 @@ class TransactionEvaluationResponse(BaseModel):
         description="Modeled risk tier category: 'Low' (0-30), 'Medium' (31-70), or 'High' (71-100).",
         examples=["High"],
     )
+    created_at: Optional[datetime] = Field(
+        default=None,
+        description="Timestamp when the transaction was evaluated and persisted.",
+    )
 
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(from_attributes=True)
+
+
+class TransactionDetailResponse(BaseModel):
+    """
+    Schema for detailed transaction inspection response.
+    """
+
+    id: str = Field(
+        ...,
+        description="Unique identifier of the transaction record.",
+        examples=["a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"],
+    )
+    amount: float = Field(
+        ...,
+        gt=0.0,
+        description="Transaction monetary amount.",
+        examples=[149.50],
+    )
+    time: float = Field(
+        ...,
+        ge=0.0,
+        description="Elapsed time in seconds from reference start.",
+        examples=[3600.0],
+    )
+    fraud_probability: float = Field(
+        ...,
+        ge=0.0,
+        le=1.0,
+        description="Estimated posterior probability of fraud P(Class=1).",
+        examples=[0.87],
+    )
+    risk_score: int = Field(
+        ...,
+        ge=0,
+        le=100,
+        description="Deterministic integer risk score (0-100).",
+        examples=[87],
+    )
+    risk_label: str = Field(
+        ...,
+        description="Modeled risk tier category ('Low', 'Medium', 'High').",
+        examples=["High"],
+    )
+    created_at: datetime = Field(
+        ...,
+        description="Timestamp when the transaction risk evaluation was persisted.",
+    )
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class PaginatedTransactionsResponse(BaseModel):
+    """
+    Schema for paginated transaction history list response.
+    """
+
+    items: list[TransactionDetailResponse] = Field(
+        ...,
+        description="List of transaction evaluation records for the current page.",
+    )
+    total: int = Field(
+        ...,
+        ge=0,
+        description="Total number of transaction records matching the query.",
+        examples=[100],
+    )
+    page: int = Field(
+        ...,
+        ge=1,
+        description="Current page number (1-indexed).",
+        examples=[1],
+    )
+    page_size: int = Field(
+        ...,
+        ge=1,
+        description="Number of items returned per page.",
+        examples=[20],
+    )
+    total_pages: int = Field(
+        ...,
+        ge=0,
+        description="Total number of pages available.",
+        examples=[5],
+    )
+
+    model_config = ConfigDict(from_attributes=True)
